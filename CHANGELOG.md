@@ -6,7 +6,7 @@ This project follows [Semantic Versioning](https://semver.org/). Each release in
 
 ---
 
-## [3.2.0] — December 9, 2024
+## [3.2.0] — December 9, 2025
 
 This release introduces two major features that transform Office Ninja Pro from a simple dimmer into a complete workplace privacy suite.
 
@@ -51,7 +51,7 @@ The extension now looks like it was written by a thoughtful developer, not gener
 
 ---
 
-## [3.0.0] — December 9, 2024
+## [3.0.0] — December 9, 2025
 
 A ground-up redesign. Version 3.0 reimagines Office Ninja Pro as a premium privacy tool with a modern interface and powerful features.
 

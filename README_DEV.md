@@ -9,53 +9,37 @@ This document is for developers who want to understand how Office Ninja Pro work
 Office Ninja Pro follows Chrome's Manifest V3 architecture, which separates the extension into distinct contexts that communicate via message passing.
 
 ### The Big Picture
-
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│                         BROWSER                                   │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│   ┌─────────────┐        ┌─────────────────────────┐             │
-│   │   POPUP     │──────▶│   BACKGROUND SERVICE    │             │
-│   │  (popup/)   │        │      WORKER             │             │
-│   │             │        │   (background/)          │             │
-│   │ User clicks │        │                          │             │
-│   │ buttons,    │        │ Handles shortcuts,       │             │
-│   │ adjusts     │        │ opens decoy tabs,        │             │
-│   │ sliders     │        │ manages extension        │             │
-│   └──────┬──────┘        │ lifecycle                │             │
-│          │               └────────────┬─────────────┘             │
-│          │                            │                           │
-│          │     chrome.tabs.sendMessage()                         │
-│          │                            │                           │
-│          ▼                            ▼                           │
-│   ┌─────────────────────────────────────────────────────────┐    │
-│   │                    CONTENT SCRIPT                        │    │
-│   │                    (content/)                            │    │
-│   │                                                          │    │
-│   │  Runs inside every web page. Creates overlay elements,   │    │
-│   │  handles tab disguise, manages the floating widget.      │    │
-│   │                                                          │    │
-│   │  This is where the actual visual effects happen.         │    │
-│   └─────────────────────────────────────────────────────────┘    │
-│                                                                   │
-│   ┌─────────────────────────────────────────────────────────┐    │
-│   │                    OPTIONS PAGE                          │    │
-│   │                    (options/)                            │    │
-│   │                                                          │    │
-│   │  Standalone page for advanced settings like decoy tabs   │    │
-│   │  configuration and per-site settings management.         │    │
-│   └─────────────────────────────────────────────────────────┘    │
-│                                                                   │
-│   ┌─────────────────────────────────────────────────────────┐    │
-│   │                    STORAGE LAYER                         │    │
-│   │                    (utils/storage.js)                    │    │
-│   │                                                          │    │
-│   │  Shared by all contexts. Handles reading/writing to      │    │
-│   │  chrome.storage.sync (settings) and local (stats).       │    │
-│   └─────────────────────────────────────────────────────────┘    │
-│                                                                   │
-└──────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────┐
+│  CHROME BROWSER ENVIRONMENT                                             │
+│                                                                         │
+│  ┌──────────────────────┐             ┌──────────────────────────────┐  │
+│  │      UI LAYER        │             │        LOGIC LAYER           │  │
+│  │                      │   Events    │                              │  │
+│  │   ┌──────────────┐   │────────────▶│  BACKGROUND SERVICE WORKER   │  │
+│  │   │    POPUP     │   │             │       (background.js)        │  │
+│  │   │   (popup/)   │◀──│─────────────│                              │  │
+│  │   └──────┬───────┘   │  Messages   │  • Manages Lifecycle         │  │
+│  │          │           │             │  • Handles Shortcuts         │  │
+│  │   ┌──────▼───────┐   │             │  • Context Menus             │  │
+│  │   │ OPTIONS PAGE │   │             └──────────────┬───────────────┘  │
+│  │   │  (options/)  │   │                            │                  │
+│  │   └──────────────┘   │                            │ messaging        │
+│  └──────────┬───────────┘                            ▼                  │
+│             │Save/Load                      ┌──────────────────┐        │
+│             │                               │  CONTENT SCRIPT  │        │
+│             │                        ┌─────▶│   (content.js)   │        │
+│             │                        │      └────────┬─────────┘        │
+│             │                        │               │                  │
+│  ┌──────────▼───────────┐            │      ┌────────▼─────────┐        │
+│  │    STORAGE LAYER     │◀───────────┘      │     WEB PAGE     │        │
+│  │  (chrome.storage)    │    Read           │       DOM        │        │
+│  │                      │    Settings       │                  │        │
+│  │ • Sync (Settings)    │                   │ • Overlay Elements│       │
+│  │ • Local (Stats)      │                   │ • Visual Effects  │       │
+│  └──────────────────────┘                   └───────────────────┘       │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Why This Separation Matters

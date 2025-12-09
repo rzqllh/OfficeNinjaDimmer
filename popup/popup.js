@@ -32,13 +32,13 @@ document.addEventListener('DOMContentLoaded', async function () {
         openOptionsLink: document.getElementById('openOptions'),
 
         // Preset buttons (quick settings)
-        presetButtons: document.querySelectorAll('.preset-btn'),
+        presetButtons: document.querySelectorAll('.preset'),
 
         // Color theme buttons
         colorButtons: document.querySelectorAll('.color-btn'),
 
         // Tab disguise buttons
-        disguiseButtons: document.querySelectorAll('.disguise-btn'),
+        disguiseButtons: document.querySelectorAll('.disguise'),
         disguiseStatus: document.getElementById('disguiseStatus'),
 
         // Site info display

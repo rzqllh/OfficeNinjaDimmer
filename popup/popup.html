@@ -9,152 +9,130 @@
 </head>
 
 <body>
-    <!-- Header Section -->
-    <div class="header">
-        <div class="title-wrapper">
-            <span class="ninja-icon">🥷</span>
+    <!-- Header -->
+    <header class="header">
+        <div class="brand">
+            <span class="logo">🥷</span>
             <span class="title">Office Ninja Pro</span>
         </div>
-        <span class="badge">v3.2</span>
-    </div>
+        <span class="version">v3.3</span>
+    </header>
 
-    <!-- Quick Preset Buttons -->
-    <div class="presets-section">
-        <div class="section-label">Quick Presets</div>
-        <div class="presets-grid">
-            <button class="preset-btn" data-preset="night">
+    <!-- Quick Presets -->
+    <section class="section presets">
+        <div class="section-title">QUICK PRESETS</div>
+        <div class="presets-row">
+            <button class="preset" data-preset="night">
                 <span class="preset-icon">🌙</span>
-                <span class="preset-name">Night</span>
+                <span>Night</span>
             </button>
-            <button class="preset-btn" data-preset="focus">
+            <button class="preset" data-preset="focus">
                 <span class="preset-icon">👁</span>
-                <span class="preset-name">Focus</span>
+                <span>Focus</span>
             </button>
-            <button class="preset-btn" data-preset="stealth">
+            <button class="preset" data-preset="stealth">
                 <span class="preset-icon">💼</span>
-                <span class="preset-name">Stealth</span>
+                <span>Stealth</span>
             </button>
         </div>
-    </div>
+    </section>
 
-    <!-- Tab Disguise Feature -->
-    <div class="control-group disguise-section">
-        <div class="label-row">
-            <span><span class="label-icon">🎭</span>Tab Disguise</span>
-            <span id="disguiseStatus" class="value-display">Off</span>
+    <!-- Tab Disguise -->
+    <section class="section card">
+        <div class="card-header">
+            <span>🎭 Tab Disguise</span>
+            <span class="status" id="disguiseStatus">Off</span>
         </div>
-        <div class="disguise-grid">
-            <button class="disguise-btn" data-disguise="sheets" title="Disguise as Google Sheets">
-                <span>📊</span>
-                <span>Sheets</span>
-            </button>
-            <button class="disguise-btn" data-disguise="gmail" title="Disguise as Gmail">
-                <span>📧</span>
-                <span>Gmail</span>
-            </button>
-            <button class="disguise-btn" data-disguise="docs" title="Disguise as Google Docs">
-                <span>📝</span>
-                <span>Docs</span>
-            </button>
-            <button class="disguise-btn" data-disguise="calendar" title="Disguise as Google Calendar">
-                <span>📅</span>
-                <span>Calendar</span>
-            </button>
+        <div class="disguise-row">
+            <button class="disguise" data-disguise="sheets" title="Sheets">📊</button>
+            <button class="disguise" data-disguise="gmail" title="Gmail">📧</button>
+            <button class="disguise" data-disguise="docs" title="Docs">📝</button>
+            <button class="disguise" data-disguise="calendar" title="Calendar">📅</button>
         </div>
-        <button class="btn-restore-tab" id="restoreTabBtn">↩️ Restore Original</button>
-    </div>
+        <button class="btn-restore" id="restoreTabBtn">↩️ Restore Original</button>
+    </section>
 
-    <!-- Dim Level Slider -->
-    <div class="control-group">
-        <div class="label-row">
-            <span><span class="label-icon">🔆</span>Dim Level</span>
-            <span id="dimValue" class="value-display">0%</span>
+    <!-- Controls -->
+    <section class="section card controls">
+        <!-- Dim -->
+        <div class="control-row">
+            <span class="control-label">🔆 Dim Level</span>
+            <span class="control-value" id="dimValue">0%</span>
         </div>
-        <input type="range" id="dimmerSlider" min="0" max="95" value="0">
-    </div>
+        <input type="range" id="dimmerSlider" min="0" max="95" value="0" class="slider">
 
-    <!-- Blur Level Slider -->
-    <div class="control-group">
-        <div class="label-row">
-            <span><span class="label-icon">💨</span>Blur Level</span>
-            <span id="blurValue" class="value-display">0px</span>
+        <!-- Blur -->
+        <div class="control-row">
+            <span class="control-label">💨 Blur Level</span>
+            <span class="control-value" id="blurValue">0px</span>
         </div>
-        <input type="range" id="blurSlider" min="0" max="20" value="0">
+        <input type="range" id="blurSlider" min="0" max="20" value="0" class="slider">
 
-        <div class="toggle-row">
-            <span class="toggle-label">
-                <span>🎨</span>Grayscale Mode
-            </span>
-            <label class="switch">
+        <!-- Grayscale -->
+        <div class="control-row toggle-row">
+            <span class="control-label">🎨 Grayscale</span>
+            <label class="toggle">
                 <input type="checkbox" id="grayscaleToggle">
-                <span class="slider-toggle"></span>
+                <span class="toggle-slider"></span>
             </label>
         </div>
-    </div>
+    </section>
 
-    <!-- Overlay Color Picker -->
-    <div class="control-group color-section">
-        <div class="label-row">
-            <span><span class="label-icon">🎭</span>Overlay Color</span>
+    <!-- Overlay Color -->
+    <section class="section card colors">
+        <div class="card-header">🎭 Overlay Color</div>
+        <div class="color-row">
+            <button class="color-btn active" data-color="#000000" style="background:#000"></button>
+            <button class="color-btn" data-color="#1a1a2e"
+                style="background:linear-gradient(135deg,#1a1a2e,#16213e)"></button>
+            <button class="color-btn" data-color="#0d3320"
+                style="background:linear-gradient(135deg,#0d3320,#1a472a)"></button>
+            <button class="color-btn" data-color="#3d2914"
+                style="background:linear-gradient(135deg,#3d2914,#5c3d1e)"></button>
         </div>
-        <div class="color-grid">
-            <button class="color-btn color-black active" data-color="#000000" title="Black"></button>
-            <button class="color-btn color-blue" data-color="#1a1a2e" title="Midnight Blue"></button>
-            <button class="color-btn color-green" data-color="#0d3320" title="Forest Green"></button>
-            <button class="color-btn color-sepia" data-color="#3d2914" title="Sepia"></button>
-        </div>
-    </div>
+    </section>
 
-    <!-- Per-Site Settings Toggle -->
-    <div class="site-settings">
+    <!-- Site Settings -->
+    <section class="section site-row">
         <div class="site-info">
             <span class="site-icon">🌐</span>
-            <div class="site-text">
-                <div class="site-hostname" id="currentHostname">-</div>
-                <div class="site-status" id="siteStatus">Global settings</div>
+            <div>
+                <div class="site-host" id="currentHostname">—</div>
+                <div class="site-state" id="siteStatus">Global settings</div>
             </div>
         </div>
-        <label class="switch">
+        <label class="toggle">
             <input type="checkbox" id="perSiteToggle">
-            <span class="slider-toggle"></span>
+            <span class="toggle-slider"></span>
         </label>
-    </div>
+    </section>
 
     <!-- Action Buttons -->
-    <div class="actions-grid">
-        <button class="btn btn-boss" id="bossBtn">
-            🚪 Boss Key
-        </button>
-        <button class="btn btn-reset" id="resetBtn">
-            ↺ Reset
-        </button>
-        <button class="btn btn-panic" id="panicBtn">
-            ⚠️ PANIC MODE
-        </button>
-    </div>
+    <section class="section actions">
+        <button class="btn btn-boss" id="bossBtn">🚪 Boss Key</button>
+        <button class="btn btn-reset" id="resetBtn">↺ Reset</button>
+        <button class="btn btn-panic" id="panicBtn">⚠️ PANIC</button>
+    </section>
 
-    <!-- Stats Display -->
-    <div class="stats-section">
-        <div class="section-label" style="margin-bottom: 8px;">📊 Usage Stats</div>
-        <div class="stats-grid">
-            <div class="stat-item">
-                <div class="stat-value" id="totalTime">0m</div>
-                <div class="stat-label">Total Time</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value" id="todayTime">0m</div>
-                <div class="stat-label">Today</div>
-            </div>
+    <!-- Stats -->
+    <section class="section stats">
+        <div class="stat">
+            <span class="stat-val" id="totalTime">0m</span>
+            <span class="stat-lbl">Total</span>
         </div>
-    </div>
+        <div class="stat">
+            <span class="stat-val" id="todayTime">0m</span>
+            <span class="stat-lbl">Today</span>
+        </div>
+    </section>
 
-    <!-- Footer Info -->
-    <div class="footer">
-        <div class="shortcut-hint">
-            Toggle: <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> | Boss: <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="shortcuts">
+            <kbd>Alt+Shift+S</kbd> Toggle &nbsp;|&nbsp; <kbd>Alt+Shift+B</kbd> Boss
         </div>
-        <a class="options-link" id="openOptions">⚙️ Advanced Settings</a>
-    </div>
+        <a class="settings-link" id="openOptions">⚙️ Settings</a>
+    </footer>
 
     <script src="../utils/storage.js"></script>
     <script src="popup.js"></script>

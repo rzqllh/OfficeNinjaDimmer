@@ -1,29 +1,23 @@
 /* ============================================
-   Office Ninja Pro - Popup Styles
-   Premium Dark Theme with Glassmorphism
+   Office Ninja Pro - Popup Styles (Refined)
    ============================================ */
 
-/* CSS Variables */
 :root {
-    --bg-body: #0d0d0d;
-    --bg-card: rgba(38, 38, 40, 0.8);
-    --bg-card-hover: rgba(48, 48, 52, 0.9);
+    --bg: #0d0d0d;
+    --card: rgba(30, 30, 32, 0.95);
+    --card-hover: rgba(40, 40, 44, 0.98);
     --accent: #0a84ff;
-    --accent-glow: rgba(10, 132, 255, 0.3);
-    --text-primary: #ffffff;
-    --text-secondary: #8e8e93;
+    --accent-glow: rgba(10, 132, 255, 0.25);
+    --text: #ffffff;
+    --text-dim: #8e8e93;
+    --text-muted: #636366;
     --danger: #ff453a;
     --success: #30d158;
-    --warning: #ffd60a;
-    --border: rgba(255, 255, 255, 0.1);
-    --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    --gradient-night: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-    --gradient-focus: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
-    --gradient-stealth: linear-gradient(135deg, #000000 0%, #434343 100%);
+    --border: rgba(255, 255, 255, 0.08);
+    --radius: 12px;
+    --radius-sm: 8px;
 }
 
-/* Base Styles */
 * {
     margin: 0;
     padding: 0;
@@ -31,35 +25,36 @@
 }
 
 body {
-    width: 320px;
-    padding: 16px;
+    width: 300px;
+    padding: 14px;
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
-    background: var(--bg-body);
-    color: var(--text-primary);
+    background: var(--bg);
+    color: var(--text);
     user-select: none;
-    overflow-x: hidden;
+    font-size: 13px;
+    line-height: 1.4;
 }
 
-/* ============================================
-   Header with Animated Gradient
-   ============================================ */
+/* ─────────────────────────────────────────────
+   Header
+   ───────────────────────────────────────────── */
 .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 16px;
-    padding-bottom: 12px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
     border-bottom: 1px solid var(--border);
 }
 
-.title-wrapper {
+.brand {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
 }
 
-.ninja-icon {
-    font-size: 24px;
+.logo {
+    font-size: 22px;
     animation: float 3s ease-in-out infinite;
 }
 
@@ -71,23 +66,22 @@ body {
     }
 
     50% {
-        transform: translateY(-3px);
+        transform: translateY(-2px);
     }
 }
 
 .title {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
-    letter-spacing: -0.5px;
-    background: linear-gradient(90deg, #fff, #0a84ff, #fff);
+    background: linear-gradient(90deg, #fff 0%, #0a84ff 50%, #fff 100%);
     background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: gradient-shift 3s ease infinite;
+    animation: shimmer 4s ease infinite;
 }
 
-@keyframes gradient-shift {
+@keyframes shimmer {
     0% {
         background-position: 0% center;
     }
@@ -101,269 +95,264 @@ body {
     }
 }
 
-.badge {
+.version {
     background: var(--accent);
+    font-size: 9px;
+    padding: 3px 7px;
+    border-radius: 8px;
+    font-weight: 600;
+    box-shadow: 0 0 8px var(--accent-glow);
+}
+
+/* ─────────────────────────────────────────────
+   Sections
+   ───────────────────────────────────────────── */
+.section {
+    margin-bottom: 10px;
+}
+
+.section-title {
     font-size: 10px;
-    padding: 3px 8px;
-    border-radius: 10px;
-    color: white;
     font-weight: 600;
-    box-shadow: 0 0 10px var(--accent-glow);
-}
-
-/* ============================================
-   Quick Presets
-   ============================================ */
-.presets-section {
-    margin-bottom: 14px;
-}
-
-.section-label {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--text-secondary);
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
     margin-bottom: 8px;
 }
 
-.presets-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+.card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 12px;
+    border: 1px solid var(--border);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.status {
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* ─────────────────────────────────────────────
+   Quick Presets
+   ───────────────────────────────────────────── */
+.presets-row {
+    display: flex;
     gap: 8px;
 }
 
-.preset-btn {
+.preset {
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 10px 6px;
-    background: var(--bg-card);
+    gap: 4px;
+    padding: 10px 8px;
+    background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: var(--radius);
+    color: var(--text-dim);
+    font-size: 10px;
     cursor: pointer;
-    transition: all 0.2s ease;
-    backdrop-filter: blur(10px);
+    transition: all 0.2s;
 }
 
-.preset-btn:hover {
-    background: var(--bg-card-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+.preset:hover {
+    background: var(--card-hover);
+    border-color: var(--accent);
+    color: var(--text);
+    transform: translateY(-1px);
 }
 
-.preset-btn:active {
-    transform: scale(0.95);
-}
-
-.preset-btn.active {
+.preset.active {
     border-color: var(--accent);
     box-shadow: 0 0 0 2px var(--accent-glow);
 }
 
 .preset-icon {
     font-size: 18px;
-    margin-bottom: 4px;
 }
 
-.preset-name {
-    font-size: 10px;
-    font-weight: 500;
-    color: var(--text-secondary);
+/* ─────────────────────────────────────────────
+   Tab Disguise
+   ───────────────────────────────────────────── */
+.disguise-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
 }
 
-/* ============================================
-   Control Cards
-   ============================================ */
-.control-group {
-    background: var(--bg-card);
-    border-radius: 14px;
-    padding: 14px;
-    margin-bottom: 10px;
-    backdrop-filter: blur(10px);
+.disguise {
+    flex: 1;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.04);
     border: 1px solid var(--border);
-    transition: all 0.2s ease;
+    border-radius: var(--radius-sm);
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.2s;
 }
 
-.control-group:hover {
-    background: var(--bg-card-hover);
+.disguise:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: scale(1.05);
 }
 
-.label-row {
+.disguise.active {
+    background: rgba(10, 132, 255, 0.15);
+    border-color: var(--accent);
+}
+
+.btn-restore {
+    width: 100%;
+    padding: 8px;
+    background: transparent;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-restore:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text);
+    border-style: solid;
+}
+
+/* ─────────────────────────────────────────────
+   Controls (Sliders)
+   ───────────────────────────────────────────── */
+.controls {
+    padding: 14px;
+}
+
+.control-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 13px;
-    margin-bottom: 10px;
-    font-weight: 500;
+    margin-bottom: 6px;
 }
 
-.label-icon {
-    margin-right: 6px;
+.control-label {
+    font-size: 12px;
+    color: var(--text);
 }
 
-.value-display {
+.control-value {
     color: var(--accent);
     font-weight: 600;
+    font-size: 12px;
     font-variant-numeric: tabular-nums;
 }
 
-/* ============================================
-   Custom Sliders with Gradient Track
-   ============================================ */
-input[type="range"] {
+.slider {
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
     height: 6px;
-    background: transparent;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), var(--accent));
+    border-radius: 999px;
+    margin-bottom: 12px;
     cursor: pointer;
 }
 
-input[type="range"]:focus {
-    outline: none;
-}
-
-/* Slider Track */
-input[type="range"]::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 6px;
-    border-radius: 999px;
-    background: linear-gradient(90deg,
-            rgba(255, 255, 255, 0.1) 0%,
-            var(--accent) 100%);
-}
-
-input[type="range"]::-moz-range-track {
-    width: 100%;
-    height: 6px;
-    border-radius: 999px;
-    background: linear-gradient(90deg,
-            rgba(255, 255, 255, 0.1) 0%,
-            var(--accent) 100%);
-}
-
-/* Slider Thumb */
-input[type="range"]::-webkit-slider-thumb {
+.slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    appearance: none;
-    height: 18px;
-    width: 18px;
+    width: 16px;
+    height: 16px;
+    background: #fff;
     border-radius: 50%;
-    background: #ffffff;
-    margin-top: -6px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 0 2px rgba(255, 255, 255, 0.1);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    transition: transform 0.15s;
 }
 
-input[type="range"]::-moz-range-thumb {
-    height: 18px;
-    width: 18px;
-    border-radius: 50%;
-    background: #ffffff;
-    border: none;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 0 2px rgba(255, 255, 255, 0.1);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-input[type="range"]::-webkit-slider-thumb:hover {
+.slider::-webkit-slider-thumb:hover {
     transform: scale(1.15);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 0 3px var(--accent-glow);
 }
 
-input[type="range"]::-webkit-slider-thumb:active {
-    transform: scale(1.1);
-}
-
-/* ============================================
-   Toggle Switch
-   ============================================ */
 .toggle-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 12px;
-    padding-top: 12px;
+    margin-top: 8px;
+    padding-top: 10px;
     border-top: 1px solid var(--border);
+    margin-bottom: 0;
 }
 
-.toggle-label {
-    font-size: 13px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.switch {
+/* ─────────────────────────────────────────────
+   Toggle Switch
+   ───────────────────────────────────────────── */
+.toggle {
     position: relative;
-    display: inline-block;
-    width: 44px;
-    height: 26px;
+    width: 40px;
+    height: 22px;
 }
 
-.switch input {
+.toggle input {
     opacity: 0;
     width: 0;
     height: 0;
 }
 
-.slider-toggle {
+.toggle-slider {
     position: absolute;
+    inset: 0;
+    background: #48484a;
+    border-radius: 22px;
     cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #48484a;
-    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: 26px;
+    transition: 0.3s;
 }
 
-.slider-toggle:before {
-    position: absolute;
+.toggle-slider::before {
     content: "";
-    height: 22px;
-    width: 22px;
+    position: absolute;
+    width: 18px;
+    height: 18px;
     left: 2px;
     bottom: 2px;
-    background-color: white;
-    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: #fff;
     border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    transition: 0.3s;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
-input:checked+.slider-toggle {
-    background-color: var(--accent);
-    box-shadow: 0 0 12px var(--accent-glow);
+input:checked+.toggle-slider {
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent-glow);
 }
 
-input:checked+.slider-toggle:before {
+input:checked+.toggle-slider::before {
     transform: translateX(18px);
 }
 
-/* ============================================
-   Color Theme Selector
-   ============================================ */
-.color-section {
-    margin-bottom: 10px;
+/* ─────────────────────────────────────────────
+   Overlay Colors
+   ───────────────────────────────────────────── */
+.colors .card-header {
+    margin-bottom: 8px;
 }
 
-.color-grid {
+.color-row {
     display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .color-btn {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     border: 2px solid transparent;
     cursor: pointer;
-    transition: all 0.2s ease;
-    position: relative;
+    transition: all 0.2s;
 }
 
 .color-btn:hover {
@@ -378,44 +367,21 @@ input:checked+.slider-toggle:before {
 .color-btn.active::after {
     content: "✓";
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 12px;
 }
 
-.color-black {
-    background: #000000;
-}
-
-.color-blue {
-    background: linear-gradient(135deg, #1a1a2e, #16213e);
-}
-
-.color-green {
-    background: linear-gradient(135deg, #0d3320, #1a472a);
-}
-
-.color-sepia {
-    background: linear-gradient(135deg, #3d2914, #5c3d1e);
-}
-
-/* ============================================
-   Per-Site Toggle
-   ============================================ */
-.site-settings {
-    background: var(--bg-card);
-    border-radius: 14px;
-    padding: 12px 14px;
-    margin-bottom: 10px;
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--border);
+/* ─────────────────────────────────────────────
+   Site Settings Row
+   ───────────────────────────────────────────── */
+.site-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 10px 12px;
+    border: 1px solid var(--border);
 }
 
 .site-info {
@@ -428,266 +394,135 @@ input:checked+.slider-toggle:before {
     font-size: 16px;
 }
 
-.site-text {
+.site-host {
     font-size: 12px;
-}
-
-.site-hostname {
     font-weight: 600;
-    color: var(--text-primary);
-    max-width: 150px;
+    max-width: 140px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-.site-status {
+.site-state {
     font-size: 10px;
-    color: var(--text-secondary);
+    color: var(--text-muted);
 }
 
-/* ============================================
-   Tab Disguise Section
-   ============================================ */
-.disguise-section {
-    margin-bottom: 10px;
-}
-
-.disguise-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
-    margin-bottom: 10px;
-}
-
-.disguise-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 8px 4px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-size: 10px;
-    color: var(--text-secondary);
-    gap: 3px;
-}
-
-.disguise-btn span:first-child {
-    font-size: 16px;
-}
-
-.disguise-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateY(-1px);
-    color: var(--text-primary);
-}
-
-.disguise-btn.active {
-    background: rgba(10, 132, 255, 0.2);
-    border-color: var(--accent);
-    color: var(--accent);
-}
-
-.btn-restore-tab {
-    width: 100%;
-    padding: 8px;
-    background: transparent;
-    border: 1px dashed var(--border);
-    border-radius: 8px;
-    color: var(--text-secondary);
-    font-size: 11px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.btn-restore-tab:hover {
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--text-primary);
-    border-style: solid;
-}
-
-/* ============================================
+/* ─────────────────────────────────────────────
    Action Buttons
-   ============================================ */
-.actions-grid {
+   ───────────────────────────────────────────── */
+.actions {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 8px;
-    margin-bottom: 10px;
 }
 
 .btn {
-    padding: 12px;
+    padding: 10px 8px;
     border: none;
-    border-radius: 12px;
-    font-size: 13px;
+    border-radius: var(--radius-sm);
+    font-size: 11px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.2s;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 4px;
 }
 
 .btn:active {
     transform: scale(0.96);
 }
 
-.btn-panic {
-    grid-column: span 2;
-    background: linear-gradient(135deg, var(--danger), #c0392b);
-    color: white;
-    box-shadow: 0 4px 15px rgba(255, 69, 58, 0.3);
-}
-
-.btn-panic:hover {
-    box-shadow: 0 6px 20px rgba(255, 69, 58, 0.4);
-    transform: translateY(-1px);
-}
-
 .btn-boss {
-    background: linear-gradient(135deg, #2c3e50, #34495e);
-    color: white;
-}
-
-.btn-boss:hover {
-    background: linear-gradient(135deg, #34495e, #4a6278);
+    background: linear-gradient(135deg, #2c3e50, #4a6278);
+    color: #fff;
 }
 
 .btn-reset {
-    background: var(--bg-card);
-    color: var(--text-secondary);
+    background: var(--card);
+    color: var(--text-dim);
     border: 1px solid var(--border);
 }
 
 .btn-reset:hover {
-    background: var(--bg-card-hover);
-    color: var(--text-primary);
+    color: var(--text);
+    background: var(--card-hover);
 }
 
-/* ============================================
-   Stats Section
-   ============================================ */
-.stats-section {
-    background: var(--bg-card);
-    border-radius: 14px;
-    padding: 12px 14px;
-    margin-bottom: 10px;
-    backdrop-filter: blur(10px);
+.btn-panic {
+    background: linear-gradient(135deg, var(--danger), #c0392b);
+    color: #fff;
+    box-shadow: 0 2px 10px rgba(255, 69, 58, 0.3);
+}
+
+.btn-panic:hover {
+    box-shadow: 0 4px 15px rgba(255, 69, 58, 0.4);
+}
+
+/* ─────────────────────────────────────────────
+   Stats
+   ───────────────────────────────────────────── */
+.stats {
+    display: flex;
+    gap: 10px;
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 10px;
     border: 1px solid var(--border);
 }
 
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-}
-
-.stat-item {
+.stat {
+    flex: 1;
     text-align: center;
 }
 
-.stat-value {
-    font-size: 18px;
+.stat-val {
+    display: block;
+    font-size: 16px;
     font-weight: 700;
     color: var(--accent);
 }
 
-.stat-label {
-    font-size: 10px;
-    color: var(--text-secondary);
+.stat-lbl {
+    font-size: 9px;
+    color: var(--text-muted);
     text-transform: uppercase;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.5px;
 }
 
-/* ============================================
+/* ─────────────────────────────────────────────
    Footer
-   ============================================ */
+   ───────────────────────────────────────────── */
 .footer {
     text-align: center;
     padding-top: 10px;
     border-top: 1px solid var(--border);
 }
 
-.shortcut-hint {
-    font-size: 11px;
-    color: var(--text-secondary);
+.shortcuts {
+    font-size: 10px;
+    color: var(--text-muted);
     margin-bottom: 6px;
 }
 
 kbd {
-    background: #3a3a3c;
-    padding: 2px 6px;
+    background: #2a2a2c;
+    padding: 2px 5px;
     border-radius: 4px;
+    font-size: 9px;
     font-family: "SF Mono", monospace;
-    font-size: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border);
 }
 
-.options-link {
+.settings-link {
     font-size: 11px;
     color: var(--accent);
     text-decoration: none;
     cursor: pointer;
-    transition: opacity 0.2s;
 }
 
-.options-link:hover {
-    opacity: 0.8;
+.settings-link:hover {
     text-decoration: underline;
-}
-
-/* ============================================
-   Animations
-   ============================================ */
-@keyframes pulse {
-
-    0%,
-    100% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0.7;
-    }
-}
-
-.pulsing {
-    animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.control-group,
-.presets-section,
-.site-settings,
-.stats-section {
-    animation: slideIn 0.3s ease-out;
-}
-
-.presets-section {
-    animation-delay: 0.05s;
-}
-
-.control-group:nth-child(2) {
-    animation-delay: 0.1s;
-}
-
-.control-group:nth-child(3) {
-    animation-delay: 0.15s;
 }

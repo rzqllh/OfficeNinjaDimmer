@@ -6,6 +6,48 @@ This project follows [Semantic Versioning](https://semver.org/). Each release in
 
 ---
 
+## [3.3.0] — December 9, 2025
+
+This release focuses on customization and user control. You're no longer limited to our preset decoy tabs — create your own. Plus, managing per-site settings is now easier than ever.
+
+### New Features
+
+**Custom Decoy Tabs**
+
+The decoy system now supports user-defined tabs. In the Options page, you'll find a new form where you can add any website as a decoy:
+
+- Pick an emoji icon (🏢, 💼, or whatever fits)
+- Give it a name
+- Paste the URL
+
+When you trigger panic mode, both the built-in decoys (Gmail, Sheets, etc.) AND your custom decoys open together. Perfect if you want to include your company's intranet, Slack, or any other work tool.
+
+Custom decoys are saved to Chrome's sync storage, so they follow you between devices.
+
+**Per-Site Settings in Options Page**
+
+Previously, you could only add per-site settings by visiting a site and toggling the option in the popup. Now there's a dedicated form in the Options page:
+
+- Enter any hostname (e.g. `reddit.com`)
+- Set dim level, blur, overlay color
+- Toggle grayscale
+- Click Add
+
+This makes it easy to configure settings for sites you haven't visited yet, or to quickly set up multiple sites at once.
+
+**Widget Off by Default**
+
+Based on feedback, the floating widget is now disabled by default for new installations. The widget is still there — you just need to enable it in Options if you want it. Existing users won't be affected.
+
+### Technical Details
+
+- New storage property: `decoySettings.customTabs[]`
+- Each custom tab stores: `{ icon, name, url }`
+- Migration added for existing users
+- Options page now has full CRUD for both decoys and sites
+
+---
+
 ## [3.2.0] — December 9, 2025
 
 This release introduces two major features that transform Office Ninja Pro from a simple dimmer into a complete workplace privacy suite.

@@ -1,17 +1,16 @@
 /*
  * Office Ninja Pro - Background Service Worker
- * Version 3.2
+ * Version 3.3
  * 
- * This runs in the background and handles things like keyboard shortcuts,
- * opening decoy tabs when panic mode is triggered, and managing extension
- * lifecycle events.
+ * Runs in the background and handles keyboard shortcuts, opening decoy tabs
+ * (both built-in and custom), and managing extension lifecycle events.
  */
 
 // The "safe" page to open when Boss Key is pressed
 const safeTabUrl = 'https://docs.google.com/document/create';
 
-// Available decoy tabs that can be opened during panic mode
-const availableDecoyTabs = {
+// Built-in decoy tab URLs
+const builtInDecoyTabs = {
     gmail: 'https://mail.google.com',
     sheets: 'https://docs.google.com/spreadsheets/create',
     docs: 'https://docs.google.com/document/create',
@@ -21,7 +20,6 @@ const availableDecoyTabs = {
 
 // ─────────────────────────────────────────────────────────────────────────
 // Keyboard Shortcuts
-// Handle the global hotkeys for quick actions
 // ─────────────────────────────────────────────────────────────────────────
 
 chrome.commands.onCommand.addListener(async function (commandName) {
@@ -64,7 +62,6 @@ async function handleToggleStealth(tabId) {
                 files: ['utils/storage.js', 'content/content.js']
             });
 
-            // Give it a moment to initialize
             await new Promise(resolve => setTimeout(resolve, 100));
             await chrome.tabs.sendMessage(tabId, { action: 'TOGGLE_STEALTH' });
         } catch (injectError) {
@@ -79,10 +76,27 @@ async function handleBossKey() {
 
     // Check if decoy tabs are enabled
     const settings = await chrome.storage.sync.get(['decoySettings']);
-    const decoyConfig = settings.decoySettings || { enabled: false, tabs: [] };
+    const decoyConfig = settings.decoySettings || { enabled: false, tabs: [], customTabs: [] };
 
-    if (decoyConfig.enabled && decoyConfig.tabs.length > 0) {
-        await openDecoyTabs(decoyConfig.tabs);
+    if (decoyConfig.enabled) {
+        // Open built-in decoys
+        if (decoyConfig.tabs && decoyConfig.tabs.length > 0) {
+            for (const tabKey of decoyConfig.tabs) {
+                const url = builtInDecoyTabs[tabKey];
+                if (url) {
+                    await chrome.tabs.create({ url: url, active: false });
+                }
+            }
+        }
+
+        // Open custom decoys
+        if (decoyConfig.customTabs && decoyConfig.customTabs.length > 0) {
+            for (const customTab of decoyConfig.customTabs) {
+                if (customTab.url) {
+                    await chrome.tabs.create({ url: customTab.url, active: false });
+                }
+            }
+        }
     }
 }
 
@@ -90,35 +104,26 @@ async function openSafeTab() {
     await chrome.tabs.create({ url: safeTabUrl });
 }
 
-async function openDecoyTabs(tabsToOpen) {
-    // Open each selected decoy tab
-    for (const tabKey of tabsToOpen) {
-        const url = availableDecoyTabs[tabKey];
-        if (url) {
-            await chrome.tabs.create({ url: url, active: false });
-        }
-    }
-}
-
 // ─────────────────────────────────────────────────────────────────────────
 // Extension Lifecycle
-// Handle install and update events
 // ─────────────────────────────────────────────────────────────────────────
 
 chrome.runtime.onInstalled.addListener(function (details) {
     if (details.reason === 'install') {
         // First time install - set up default settings
+        // Note: Widget is OFF by default as per user preference
         chrome.storage.sync.set({
             globalSettings: {
                 dimLevel: 0,
                 blurLevel: 0,
                 grayscale: false,
                 overlayColor: '#000000',
-                widgetEnabled: true
+                widgetEnabled: false  // Widget OFF by default
             },
             decoySettings: {
                 enabled: false,
-                tabs: ['docs', 'sheets']  // Default decoy tabs
+                tabs: [],
+                customTabs: []  // For user-defined decoy tabs
             }
         });
 
@@ -136,13 +141,21 @@ chrome.runtime.onInstalled.addListener(function (details) {
     } else if (details.reason === 'update') {
         console.log('Office Ninja Pro updated to version', chrome.runtime.getManifest().version);
 
-        // Make sure decoy settings exist after update
-        chrome.storage.sync.get(['decoySettings'], function (result) {
+        // Migration: ensure new settings structure exists
+        chrome.storage.sync.get(['decoySettings', 'globalSettings'], function (result) {
+            // Add customTabs array if missing
+            if (result.decoySettings && !result.decoySettings.customTabs) {
+                result.decoySettings.customTabs = [];
+                chrome.storage.sync.set({ decoySettings: result.decoySettings });
+            }
+
+            // Ensure decoySettings exists
             if (!result.decoySettings) {
                 chrome.storage.sync.set({
                     decoySettings: {
                         enabled: false,
-                        tabs: ['docs', 'sheets']
+                        tabs: [],
+                        customTabs: []
                     }
                 });
             }
@@ -152,18 +165,15 @@ chrome.runtime.onInstalled.addListener(function (details) {
 
 // ─────────────────────────────────────────────────────────────────────────
 // Message Handling
-// Respond to messages from popup and content scripts
 // ─────────────────────────────────────────────────────────────────────────
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
-    // Synchronous message handlers (no async response needed)
     if (request.action === 'OPEN_SAFE_TAB') {
         openSafeTab();
         return false;
     }
 
-    // Async handlers need to return true
     if (request.action === 'GET_CURRENT_TAB') {
         chrome.tabs.query({ active: true, currentWindow: true })
             .then(tabs => sendResponse(tabs[0] || null))
@@ -190,30 +200,23 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 });
 
 // ─────────────────────────────────────────────────────────────────────────
-// Tab Navigation
-// Auto-apply per-site settings when switching tabs
+// Tab Navigation - Auto-apply per-site settings
 // ─────────────────────────────────────────────────────────────────────────
 
 chrome.tabs.onUpdated.addListener(async function (tabId, changeInfo, tab) {
-    // Only act when page is fully loaded
     if (changeInfo.status !== 'complete') return;
-
-    // Skip internal browser pages
     if (!tab.url || tab.url.startsWith('chrome://') || tab.url.startsWith('edge://')) return;
 
     try {
         const url = new URL(tab.url);
         const hostname = url.hostname;
 
-        // Check for site-specific settings
         const result = await chrome.storage.sync.get(['siteSettings']);
         const allSiteSettings = result.siteSettings || {};
 
         if (allSiteSettings[hostname]) {
-            // This site has custom settings, apply them
             const siteConfig = allSiteSettings[hostname];
 
-            // Wait a bit for the content script to be ready
             await new Promise(resolve => setTimeout(resolve, 200));
 
             try {
@@ -226,11 +229,7 @@ chrome.tabs.onUpdated.addListener(async function (tabId, changeInfo, tab) {
                         color: siteConfig.overlayColor || '#000000'
                     }
                 });
-            } catch (e) {
-                // Content script not ready yet, that's okay
-            }
+            } catch (e) { }
         }
-    } catch (e) {
-        // Invalid URL or other error, ignore it
-    }
+    } catch (e) { }
 });

@@ -20,7 +20,7 @@ const StorageUtils = {
         blurLevel: 0,
         grayscale: false,
         overlayColor: '#000000',
-        widgetEnabled: true
+        widgetEnabled: false  // Widget is OFF by default
     },
 
     // ─────────────────────────────────────────────────────────────────────────

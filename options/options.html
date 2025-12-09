@@ -20,7 +20,7 @@
                         <p class="subtitle">Advanced Settings</p>
                     </div>
                 </div>
-                <span class="badge">v3.2</span>
+                <span class="badge">v3.3</span>
             </div>
         </header>
 
@@ -35,11 +35,10 @@
                 <div class="setting-row">
                     <div class="setting-info">
                         <span class="setting-label">Floating Widget</span>
-                        <span class="setting-desc">Show a floating ninja button on pages for quick access to
-                            controls</span>
+                        <span class="setting-desc">Show a draggable ninja button on pages for quick access</span>
                     </div>
                     <label class="switch">
-                        <input type="checkbox" id="widgetEnabled" checked>
+                        <input type="checkbox" id="widgetEnabled">
                         <span class="slider-toggle"></span>
                     </label>
                 </div>
@@ -52,14 +51,13 @@
                     Decoy Tabs
                 </h2>
                 <p class="card-desc">
-                    When you hit the Boss Key or Panic Mode, automatically open these work-looking tabs
-                    to make it seem like you've been productive all along.
+                    When you trigger panic mode, these tabs open automatically to create your productivity alibi.
                 </p>
 
                 <div class="setting-row">
                     <div class="setting-info">
                         <span class="setting-label">Enable Decoy Tabs</span>
-                        <span class="setting-desc">Open fake "work" tabs when panic is triggered</span>
+                        <span class="setting-desc">Open decoy tabs when panic is triggered</span>
                     </div>
                     <label class="switch">
                         <input type="checkbox" id="decoyEnabled">
@@ -68,7 +66,7 @@
                 </div>
 
                 <div id="decoyOptions" class="decoy-options">
-                    <div class="setting-label" style="margin-bottom: 12px;">Choose which tabs to open:</div>
+                    <div class="setting-label" style="margin-bottom: 12px;">Built-in Decoys:</div>
 
                     <div class="checkbox-grid">
                         <label class="checkbox-item">
@@ -92,6 +90,29 @@
                             <span class="checkbox-label">📁 Google Drive</span>
                         </label>
                     </div>
+
+                    <!-- Custom Decoys -->
+                    <div class="custom-decoys-section">
+                        <div class="setting-label" style="margin: 20px 0 12px;">Custom Decoys:</div>
+
+                        <div id="customDecoysList" class="custom-decoys-list">
+                            <!-- Custom decoys will be rendered here -->
+                        </div>
+
+                        <div class="add-custom-form">
+                            <div class="form-row">
+                                <input type="text" id="customDecoyIcon" placeholder="🏢" class="input-icon"
+                                    maxlength="2">
+                                <input type="text" id="customDecoyName" placeholder="Name (e.g. Slack)"
+                                    class="input-name">
+                            </div>
+                            <div class="form-row">
+                                <input type="url" id="customDecoyUrl" placeholder="URL (e.g. https://slack.com)"
+                                    class="input-url">
+                                <button type="button" id="addCustomDecoy" class="btn btn-add">+ Add</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -101,14 +122,49 @@
                     <span class="icon">🌐</span>
                     Per-Site Settings
                 </h2>
-                <p class="card-desc">Manage your saved settings for specific websites</p>
+                <p class="card-desc">Configure custom dimming settings for specific websites</p>
 
+                <!-- Add New Site Form -->
+                <div class="add-site-form">
+                    <div class="form-header">Add New Site</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Website Domain</label>
+                            <input type="text" id="newSiteHostname" placeholder="youtube.com" class="input-full">
+                        </div>
+                        <div class="form-group">
+                            <label>Dim Level (%)</label>
+                            <input type="number" id="newSiteDim" min="0" max="95" value="50" class="input-full">
+                        </div>
+                        <div class="form-group">
+                            <label>Blur (px)</label>
+                            <input type="number" id="newSiteBlur" min="0" max="20" value="3" class="input-full">
+                        </div>
+                        <div class="form-group">
+                            <label>Overlay Color</label>
+                            <select id="newSiteColor" class="input-full">
+                                <option value="#000000">Black</option>
+                                <option value="#1a1a2e">Midnight Blue</option>
+                                <option value="#0d3320">Forest Green</option>
+                                <option value="#3d2914">Sepia</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row" style="margin-top: 12px;">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="newSiteGrayscale">
+                            <span>Enable Grayscale</span>
+                        </label>
+                        <button type="button" id="addSiteSettings" class="btn btn-primary">+ Add Site</button>
+                    </div>
+                </div>
+
+                <!-- Sites List -->
+                <div class="setting-label" style="margin-top: 20px;">Saved Sites:</div>
                 <div id="sitesList" class="sites-list">
                     <div class="empty-state">
                         <span class="empty-icon">📭</span>
                         <p>No site-specific settings saved yet.</p>
-                        <p class="hint">Enable the per-site toggle in the popup to save custom settings for different
-                            websites.</p>
                     </div>
                 </div>
             </section>
@@ -167,7 +223,7 @@
                 </div>
 
                 <p class="hint">
-                    Want to customize these? Go to
+                    Customize these at
                     <a href="#" id="shortcutsLink">chrome://extensions/shortcuts</a>
                 </p>
             </section>
@@ -184,7 +240,7 @@
                     customizable dimming, blur effects, tab disguise, and emergency escape features.
                 </p>
                 <div class="about-links">
-                    <span class="version-info">Version 3.2</span>
+                    <span class="version-info">Version 3.3</span>
                 </div>
             </section>
         </main>

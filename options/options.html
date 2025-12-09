@@ -24,18 +24,19 @@
             </div>
         </header>
 
-        <!-- Main Content -->
-        <main class="main">
-            <!-- Widget Settings -->
-            <section class="card">
+        <!-- Bento Grid Layout -->
+        <main class="bento-grid">
+
+            <!-- Row 1: Widget + Stats (side by side) -->
+            <section class="card card-widget">
                 <h2 class="card-title">
                     <span class="icon">🎛️</span>
-                    Widget Settings
+                    Widget
                 </h2>
                 <div class="setting-row">
                     <div class="setting-info">
                         <span class="setting-label">Floating Widget</span>
-                        <span class="setting-desc">Show a draggable ninja button on pages for quick access</span>
+                        <span class="setting-desc">Draggable ninja button on pages</span>
                     </div>
                     <label class="switch">
                         <input type="checkbox" id="widgetEnabled">
@@ -44,210 +45,164 @@
                 </div>
             </section>
 
-            <!-- Decoy Tabs Settings -->
-            <section class="card">
+            <section class="card card-stats">
                 <h2 class="card-title">
-                    <span class="icon">🎭</span>
-                    Decoy Tabs
+                    <span class="icon">📊</span>
+                    Stats
                 </h2>
-                <p class="card-desc">
-                    When you trigger panic mode, these tabs open automatically to create your productivity alibi.
-                </p>
-
-                <div class="setting-row">
-                    <div class="setting-info">
-                        <span class="setting-label">Enable Decoy Tabs</span>
-                        <span class="setting-desc">Open decoy tabs when panic is triggered</span>
+                <div class="stats-mini">
+                    <div class="stat-mini">
+                        <span class="stat-value" id="totalTime">0h</span>
+                        <span class="stat-label">Total</span>
                     </div>
+                    <div class="stat-mini">
+                        <span class="stat-value" id="todayTime">0m</span>
+                        <span class="stat-label">Today</span>
+                    </div>
+                    <div class="stat-mini">
+                        <span class="stat-value" id="sessionsCount">0</span>
+                        <span class="stat-label">Sessions</span>
+                    </div>
+                    <div class="stat-mini">
+                        <span class="stat-value" id="weekTime">0h</span>
+                        <span class="stat-label">Week</span>
+                    </div>
+                </div>
+                <button class="btn-mini" id="resetStats">Reset</button>
+            </section>
+
+            <section class="card card-shortcuts">
+                <h2 class="card-title">
+                    <span class="icon">⌨️</span>
+                    Shortcuts
+                </h2>
+                <div class="shortcuts-compact">
+                    <div class="shortcut-row">
+                        <span>Toggle Stealth</span>
+                        <kbd>Alt+Shift+S</kbd>
+                    </div>
+                    <div class="shortcut-row">
+                        <span>Boss Key</span>
+                        <kbd>Alt+Shift+B</kbd>
+                    </div>
+                </div>
+                <a href="#" id="shortcutsLink" class="link-small">Customize →</a>
+            </section>
+
+            <!-- Row 2: Decoy Tabs (wide) -->
+            <section class="card card-decoy">
+                <div class="card-header-row">
+                    <h2 class="card-title">
+                        <span class="icon">🎭</span>
+                        Decoy Tabs
+                    </h2>
                     <label class="switch">
                         <input type="checkbox" id="decoyEnabled">
                         <span class="slider-toggle"></span>
                     </label>
                 </div>
 
-                <div id="decoyOptions" class="decoy-options">
-                    <div class="setting-label" style="margin-bottom: 12px;">Built-in Decoys:</div>
-
-                    <div class="checkbox-grid">
-                        <label class="checkbox-item">
-                            <input type="checkbox" id="decoyDocs" value="docs">
-                            <span class="checkbox-label">📝 Google Docs</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" id="decoySheets" value="sheets">
-                            <span class="checkbox-label">📊 Google Sheets</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" id="decoyGmail" value="gmail">
-                            <span class="checkbox-label">📧 Gmail</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" id="decoyCalendar" value="calendar">
-                            <span class="checkbox-label">📅 Google Calendar</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" id="decoyDrive" value="drive">
-                            <span class="checkbox-label">📁 Google Drive</span>
-                        </label>
-                    </div>
-
-                    <!-- Custom Decoys -->
-                    <div class="custom-decoys-section">
-                        <div class="setting-label" style="margin: 20px 0 12px;">Custom Decoys:</div>
-
-                        <div id="customDecoysList" class="custom-decoys-list">
-                            <!-- Custom decoys will be rendered here -->
+                <div id="decoyOptions" class="decoy-content">
+                    <div class="decoy-split">
+                        <!-- Built-in -->
+                        <div class="decoy-column">
+                            <div class="column-label">Built-in</div>
+                            <div class="checkbox-list">
+                                <label class="checkbox-compact">
+                                    <input type="checkbox" id="decoyDocs" value="docs">
+                                    <span>📝 Docs</span>
+                                </label>
+                                <label class="checkbox-compact">
+                                    <input type="checkbox" id="decoySheets" value="sheets">
+                                    <span>📊 Sheets</span>
+                                </label>
+                                <label class="checkbox-compact">
+                                    <input type="checkbox" id="decoyGmail" value="gmail">
+                                    <span>📧 Gmail</span>
+                                </label>
+                                <label class="checkbox-compact">
+                                    <input type="checkbox" id="decoyCalendar" value="calendar">
+                                    <span>📅 Calendar</span>
+                                </label>
+                                <label class="checkbox-compact">
+                                    <input type="checkbox" id="decoyDrive" value="drive">
+                                    <span>📁 Drive</span>
+                                </label>
+                            </div>
                         </div>
 
-                        <div class="add-custom-form">
-                            <div class="form-row">
+                        <!-- Custom -->
+                        <div class="decoy-column">
+                            <div class="column-label">Custom</div>
+                            <div id="customDecoysList" class="custom-decoys-list"></div>
+                            <div class="add-row">
                                 <input type="text" id="customDecoyIcon" placeholder="🏢" class="input-icon"
                                     maxlength="2">
-                                <input type="text" id="customDecoyName" placeholder="Name (e.g. Slack)"
-                                    class="input-name">
-                            </div>
-                            <div class="form-row">
-                                <input type="url" id="customDecoyUrl" placeholder="URL (e.g. https://slack.com)"
-                                    class="input-url">
-                                <button type="button" id="addCustomDecoy" class="btn btn-add">+ Add</button>
+                                <input type="text" id="customDecoyName" placeholder="Name" class="input-sm">
+                                <input type="url" id="customDecoyUrl" placeholder="URL" class="input-md">
+                                <button type="button" id="addCustomDecoy" class="btn-add-sm">+</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Per-Site Settings -->
-            <section class="card">
+            <!-- Row 3: Per-Site Settings (wide) -->
+            <section class="card card-sites">
                 <h2 class="card-title">
                     <span class="icon">🌐</span>
                     Per-Site Settings
                 </h2>
-                <p class="card-desc">Configure custom dimming settings for specific websites</p>
 
-                <!-- Add New Site Form -->
-                <div class="add-site-form">
-                    <div class="form-header">Add New Site</div>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>Website Domain</label>
-                            <input type="text" id="newSiteHostname" placeholder="youtube.com" class="input-full">
+                <div class="sites-content">
+                    <div class="sites-split">
+                        <!-- Add Form -->
+                        <div class="site-add-form">
+                            <div class="form-compact">
+                                <input type="text" id="newSiteHostname" placeholder="youtube.com" class="input-host">
+                                <input type="number" id="newSiteDim" min="0" max="95" value="50" placeholder="Dim %"
+                                    class="input-num">
+                                <input type="number" id="newSiteBlur" min="0" max="20" value="3" placeholder="Blur"
+                                    class="input-num">
+                                <select id="newSiteColor" class="input-color">
+                                    <option value="#000000">Black</option>
+                                    <option value="#1a1a2e">Blue</option>
+                                    <option value="#0d3320">Green</option>
+                                    <option value="#3d2914">Sepia</option>
+                                </select>
+                                <label class="checkbox-tiny">
+                                    <input type="checkbox" id="newSiteGrayscale">
+                                    <span>Gray</span>
+                                </label>
+                                <button type="button" id="addSiteSettings" class="btn-add-sm">+</button>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Dim Level (%)</label>
-                            <input type="number" id="newSiteDim" min="0" max="95" value="50" class="input-full">
-                        </div>
-                        <div class="form-group">
-                            <label>Blur (px)</label>
-                            <input type="number" id="newSiteBlur" min="0" max="20" value="3" class="input-full">
-                        </div>
-                        <div class="form-group">
-                            <label>Overlay Color</label>
-                            <select id="newSiteColor" class="input-full">
-                                <option value="#000000">Black</option>
-                                <option value="#1a1a2e">Midnight Blue</option>
-                                <option value="#0d3320">Forest Green</option>
-                                <option value="#3d2914">Sepia</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row" style="margin-top: 12px;">
-                        <label class="checkbox-inline">
-                            <input type="checkbox" id="newSiteGrayscale">
-                            <span>Enable Grayscale</span>
-                        </label>
-                        <button type="button" id="addSiteSettings" class="btn btn-primary">+ Add Site</button>
-                    </div>
-                </div>
 
-                <!-- Sites List -->
-                <div class="setting-label" style="margin-top: 20px;">Saved Sites:</div>
-                <div id="sitesList" class="sites-list">
-                    <div class="empty-state">
-                        <span class="empty-icon">📭</span>
-                        <p>No site-specific settings saved yet.</p>
+                        <!-- Sites List -->
+                        <div id="sitesList" class="sites-list-compact">
+                            <div class="empty-hint">No sites configured</div>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Statistics -->
-            <section class="card">
-                <h2 class="card-title">
-                    <span class="icon">📊</span>
-                    Usage Statistics
-                </h2>
-
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-value" id="totalTime">0h 0m</div>
-                        <div class="stat-label">Total Stealth Time</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="sessionsCount">0</div>
-                        <div class="stat-label">Total Sessions</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="todayTime">0m</div>
-                        <div class="stat-label">Today</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="weekTime">0h</div>
-                        <div class="stat-label">This Week</div>
-                    </div>
-                </div>
-
-                <button class="btn btn-secondary" id="resetStats">
-                    🗑️ Reset Statistics
-                </button>
-            </section>
-
-            <!-- Keyboard Shortcuts -->
-            <section class="card">
-                <h2 class="card-title">
-                    <span class="icon">⌨️</span>
-                    Keyboard Shortcuts
-                </h2>
-
-                <div class="shortcuts-list">
-                    <div class="shortcut-item">
-                        <span class="shortcut-name">Toggle Stealth Mode</span>
-                        <div class="shortcut-keys">
-                            <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd>
-                        </div>
-                    </div>
-                    <div class="shortcut-item">
-                        <span class="shortcut-name">Boss Key (Emergency Escape)</span>
-                        <div class="shortcut-keys">
-                            <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>B</kbd>
-                        </div>
-                    </div>
-                </div>
-
-                <p class="hint">
-                    Customize these at
-                    <a href="#" id="shortcutsLink">chrome://extensions/shortcuts</a>
-                </p>
-            </section>
-
-            <!-- About -->
-            <section class="card">
+            <!-- Row 4: About (small) -->
+            <section class="card card-about">
                 <h2 class="card-title">
                     <span class="icon">ℹ️</span>
                     About
                 </h2>
-                <p class="about-text">
-                    Office Ninja Pro is a premium screen dimmer and privacy tool designed for
-                    open-office environments. Stay productive (or at least look like it) with
-                    customizable dimming, blur effects, tab disguise, and emergency escape features.
+                <p class="about-compact">
+                    Premium privacy tool for open offices. Dim, blur, disguise, escape.
                 </p>
-                <div class="about-links">
-                    <span class="version-info">Version 3.3</span>
-                </div>
+                <span class="version-tag">v3.3</span>
             </section>
+
         </main>
 
         <!-- Footer -->
         <footer class="footer">
-            <p>Made with ❤️ for office ninjas everywhere</p>
+            <p>Made with ☕ for <span class="panic">Panic People</span></p>
         </footer>
     </div>
 

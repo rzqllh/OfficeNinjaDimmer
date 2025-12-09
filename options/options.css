@@ -1,11 +1,11 @@
 /* ============================================
-   Office Ninja Pro - Options Page Styles
+   Office Ninja Pro - Options Page (Bento Grid)
    ============================================ */
 
 :root {
     --bg-body: #0a0a0a;
-    --bg-card: rgba(28, 28, 30, 0.8);
-    --bg-card-hover: rgba(38, 38, 42, 0.9);
+    --bg-card: rgba(28, 28, 30, 0.9);
+    --bg-card-hover: rgba(38, 38, 42, 0.95);
     --accent: #0a84ff;
     --accent-glow: rgba(10, 132, 255, 0.3);
     --text-primary: #ffffff;
@@ -27,18 +27,18 @@ body {
     background: var(--bg-body);
     color: var(--text-primary);
     min-height: 100vh;
-    line-height: 1.5;
+    line-height: 1.4;
 }
 
 .container {
-    max-width: 720px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 40px 20px;
+    padding: 24px;
 }
 
 /* Header */
 .header {
-    margin-bottom: 40px;
+    margin-bottom: 24px;
 }
 
 .header-content {
@@ -54,7 +54,7 @@ body {
 }
 
 .ninja-icon {
-    font-size: 48px;
+    font-size: 40px;
     animation: float 3s ease-in-out infinite;
 }
 
@@ -66,14 +66,13 @@ body {
     }
 
     50% {
-        transform: translateY(-5px);
+        transform: translateY(-4px);
     }
 }
 
 .title {
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 700;
-    letter-spacing: -0.5px;
     background: linear-gradient(90deg, #fff, #0a84ff, #fff);
     background-size: 200% auto;
     -webkit-background-clip: text;
@@ -98,66 +97,95 @@ body {
 
 .subtitle {
     color: var(--text-secondary);
-    font-size: 14px;
-    margin-top: 4px;
+    font-size: 13px;
 }
 
 .badge {
     background: var(--accent);
-    font-size: 12px;
-    padding: 4px 12px;
-    border-radius: 12px;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 10px;
     color: white;
     font-weight: 600;
-    box-shadow: 0 0 15px var(--accent-glow);
+    box-shadow: 0 0 12px var(--accent-glow);
 }
 
-/* Main Content */
-.main {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+/* ============================================
+   Bento Grid Layout
+   ============================================ */
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto auto auto;
+    gap: 16px;
 }
 
-/* Cards */
+/* Card base */
 .card {
     background: var(--bg-card);
     border-radius: 16px;
-    padding: 24px;
+    padding: 20px;
     backdrop-filter: blur(20px);
     border: 1px solid var(--border);
+    transition: all 0.2s ease;
+}
+
+.card:hover {
+    background: var(--bg-card-hover);
 }
 
 .card-title {
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 600;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
+    color: var(--text-primary);
 }
 
 .card-title .icon {
-    font-size: 20px;
+    font-size: 16px;
 }
 
-.card-desc {
-    color: var(--text-secondary);
-    font-size: 14px;
-    margin-bottom: 16px;
+/* Grid positioning */
+.card-widget {
+    grid-column: 1;
+    grid-row: 1;
 }
 
-/* Settings Row */
+.card-stats {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.card-shortcuts {
+    grid-column: 3;
+    grid-row: 1;
+}
+
+.card-decoy {
+    grid-column: 1 / 4;
+    grid-row: 2;
+}
+
+.card-sites {
+    grid-column: 1 / 4;
+    grid-row: 3;
+}
+
+.card-about {
+    grid-column: 1 / 4;
+    grid-row: 4;
+}
+
+/* ============================================
+   Widget Card
+   ============================================ */
 .setting-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
-}
-
-.setting-row:last-child {
-    border-bottom: none;
 }
 
 .setting-info {
@@ -165,23 +193,21 @@ body {
 }
 
 .setting-label {
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 500;
     display: block;
 }
 
 .setting-desc {
-    font-size: 12px;
+    font-size: 11px;
     color: var(--text-secondary);
-    margin-top: 2px;
 }
 
 /* Switch */
 .switch {
     position: relative;
-    display: inline-block;
-    width: 50px;
-    height: 28px;
+    width: 44px;
+    height: 24px;
 }
 
 .switch input {
@@ -193,20 +219,17 @@ body {
 .slider-toggle {
     position: absolute;
     cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     background-color: #48484a;
     transition: 0.3s;
-    border-radius: 28px;
+    border-radius: 24px;
 }
 
 .slider-toggle:before {
-    position: absolute;
     content: "";
-    height: 24px;
-    width: 24px;
+    position: absolute;
+    height: 20px;
+    width: 20px;
     left: 2px;
     bottom: 2px;
     background-color: white;
@@ -217,170 +240,206 @@ body {
 
 input:checked+.slider-toggle {
     background-color: var(--accent);
-    box-shadow: 0 0 12px var(--accent-glow);
+    box-shadow: 0 0 10px var(--accent-glow);
 }
 
 input:checked+.slider-toggle:before {
-    transform: translateX(22px);
+    transform: translateX(20px);
 }
 
-/* Sites List */
-.sites-list {
-    margin-top: 12px;
+/* ============================================
+   Stats Card
+   ============================================ */
+.stats-mini {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
 }
 
-.site-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 16px;
+.stat-mini {
+    text-align: center;
+    padding: 8px 4px;
     background: rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    margin-bottom: 8px;
+    border-radius: 8px;
 }
 
-.site-item:last-child {
-    margin-bottom: 0;
+.stat-mini .stat-value {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
 }
 
-.site-hostname {
-    font-size: 14px;
-    font-weight: 500;
+.stat-mini .stat-label {
+    font-size: 9px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
 }
 
-.site-preview {
-    font-size: 12px;
+.btn-mini {
+    width: 100%;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    border-radius: 8px;
     color: var(--text-secondary);
-}
-
-.delete-btn {
-    background: var(--danger);
-    border: none;
-    color: white;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 12px;
+    font-size: 11px;
     cursor: pointer;
     transition: all 0.2s;
 }
 
-.delete-btn:hover {
-    opacity: 0.8;
-}
-
-.empty-state {
-    text-align: center;
-    padding: 32px 16px;
-    color: var(--text-secondary);
-}
-
-.empty-icon {
-    font-size: 40px;
-    display: block;
-    margin-bottom: 12px;
-}
-
-/* Decoy Tabs Options */
-.decoy-options {
-    margin-top: 16px;
-    padding-top: 16px;
-    border-top: 1px solid var(--border);
-    transition: opacity 0.3s ease;
-}
-
-.checkbox-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-}
-
-.checkbox-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 14px;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.checkbox-item:hover {
-    background: rgba(255, 255, 255, 0.05);
-}
-
-.checkbox-item input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    accent-color: var(--accent);
-    cursor: pointer;
-}
-
-.checkbox-label {
-    font-size: 13px;
+.btn-mini:hover {
+    background: rgba(255, 255, 255, 0.1);
     color: var(--text-primary);
 }
 
-.hint {
+/* ============================================
+   Shortcuts Card
+   ============================================ */
+.shortcuts-compact {
+    margin-bottom: 12px;
+}
+
+.shortcut-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
     font-size: 12px;
-    color: var(--text-tertiary);
-    margin-top: 8px;
 }
 
-.hint a {
+.shortcut-row span {
+    color: var(--text-secondary);
+}
+
+.shortcut-row kbd {
+    background: #2a2a2c;
+    padding: 3px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-family: "SF Mono", monospace;
+    border: 1px solid var(--border);
+}
+
+.link-small {
+    font-size: 11px;
     color: var(--accent);
-    cursor: pointer;
+    text-decoration: none;
 }
 
-/* Custom Decoys Section */
-.custom-decoys-section {
-    margin-top: 20px;
-    padding-top: 16px;
-    border-top: 1px solid var(--border);
+.link-small:hover {
+    text-decoration: underline;
 }
 
-.custom-decoys-list {
+/* ============================================
+   Decoy Card
+   ============================================ */
+.card-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 16px;
+}
+
+.card-header-row .card-title {
+    margin-bottom: 0;
+}
+
+.decoy-content {
+    transition: opacity 0.3s;
+}
+
+.decoy-split {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+}
+
+.decoy-column {
+    background: rgba(0, 0, 0, 0.15);
+    padding: 14px;
+    border-radius: 12px;
+}
+
+.column-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin-bottom: 10px;
+}
+
+.checkbox-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.checkbox-compact {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s;
+}
+
+.checkbox-compact:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.checkbox-compact input {
+    width: 14px;
+    height: 14px;
+    accent-color: var(--accent);
+}
+
+/* Custom decoys */
+.custom-decoys-list {
+    min-height: 40px;
+    margin-bottom: 12px;
 }
 
 .custom-decoy-item {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 10px 14px;
+    gap: 8px;
+    padding: 6px 10px;
     background: rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    margin-bottom: 8px;
+    border-radius: 6px;
+    margin-bottom: 6px;
+    font-size: 12px;
 }
 
 .custom-decoy-item .decoy-icon {
-    font-size: 18px;
-    min-width: 24px;
-    text-align: center;
+    min-width: 20px;
 }
 
 .custom-decoy-item .decoy-name {
     font-weight: 500;
-    color: var(--text-primary);
 }
 
 .custom-decoy-item .decoy-url {
     flex: 1;
-    font-size: 12px;
-    color: var(--text-secondary);
+    color: var(--text-tertiary);
     text-align: right;
+    font-size: 10px;
 }
 
 .btn-delete-decoy {
     background: transparent;
     border: 1px solid var(--danger);
     color: var(--danger);
-    width: 24px;
-    height: 24px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 12px;
-    transition: all 0.2s;
+    font-size: 10px;
+    line-height: 1;
 }
 
 .btn-delete-decoy:hover {
@@ -388,42 +447,22 @@ input:checked+.slider-toggle:before {
     color: white;
 }
 
-.empty-hint {
-    color: var(--text-tertiary);
-    font-size: 13px;
-    padding: 12px;
-    text-align: center;
-}
-
-/* Add Custom Form */
-.add-custom-form {
-    background: rgba(0, 0, 0, 0.15);
-    padding: 14px;
-    border-radius: 10px;
-    border: 1px dashed var(--border);
-}
-
-.form-row {
+.add-row {
     display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-
-.form-row:last-child {
-    margin-bottom: 0;
+    gap: 6px;
 }
 
 .input-icon {
-    width: 50px;
+    width: 40px;
     text-align: center;
-    font-size: 18px;
+    font-size: 14px;
 }
 
-.input-name {
-    flex: 1;
+.input-sm {
+    width: 80px;
 }
 
-.input-url {
+.input-md {
     flex: 1;
 }
 
@@ -433,16 +472,14 @@ input[type="number"],
 select {
     background: rgba(0, 0, 0, 0.3);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 12px;
+    border-radius: 6px;
+    padding: 8px 10px;
     color: var(--text-primary);
-    font-size: 13px;
+    font-size: 12px;
     transition: all 0.2s;
 }
 
-input[type="text"]:focus,
-input[type="url"]:focus,
-input[type="number"]:focus,
+input:focus,
 select:focus {
     outline: none;
     border-color: var(--accent);
@@ -453,231 +490,230 @@ input::placeholder {
     color: var(--text-tertiary);
 }
 
-.btn-add {
+.btn-add-sm {
     background: var(--accent);
     color: white;
-    white-space: nowrap;
-    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    width: 32px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.2s;
 }
 
-.btn-add:hover {
+.btn-add-sm:hover {
     background: #0070e0;
 }
 
-/* Per-Site Settings Form */
-.add-site-form {
-    background: rgba(0, 0, 0, 0.15);
+.empty-hint {
+    color: var(--text-tertiary);
+    font-size: 11px;
+    text-align: center;
+    padding: 10px;
+}
+
+/* ============================================
+   Sites Card
+   ============================================ */
+.sites-content {
+    background: rgba(0, 0, 0, 0.1);
     padding: 16px;
     border-radius: 12px;
-    border: 1px dashed var(--border);
-    margin-bottom: 20px;
 }
 
-.form-header {
-    font-weight: 600;
-    margin-bottom: 14px;
-    color: var(--text-primary);
-}
-
-.form-grid {
+.sites-split {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
 }
 
-.form-group {
+.form-compact {
     display: flex;
-    flex-direction: column;
-    gap: 6px;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
 }
 
-.form-group label {
-    font-size: 12px;
+.input-host {
+    width: 140px;
+}
+
+.input-num {
+    width: 60px;
+}
+
+.input-color {
+    width: 80px;
+}
+
+.checkbox-tiny {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
     color: var(--text-secondary);
 }
 
-.input-full {
-    width: 100%;
-}
-
-.checkbox-inline {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    font-size: 13px;
-}
-
-.checkbox-inline input {
-    width: 16px;
-    height: 16px;
+.checkbox-tiny input {
+    width: 14px;
+    height: 14px;
     accent-color: var(--accent);
 }
 
-.btn-primary {
-    background: var(--accent);
-    color: white;
-    margin-left: auto;
+.sites-list-compact {
+    max-height: 150px;
+    overflow-y: auto;
 }
 
-.btn-primary:hover {
-    background: #0070e0;
+.site-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    margin-bottom: 6px;
 }
 
 .site-info-block {
     flex: 1;
 }
 
-/* Stats Grid */
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin-bottom: 16px;
+.site-hostname {
+    font-size: 13px;
+    font-weight: 500;
 }
 
-.stat-card {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 12px;
-    padding: 16px;
-    text-align: center;
+.site-preview {
+    font-size: 10px;
+    color: var(--text-tertiary);
 }
 
-.stat-value {
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--accent);
-}
-
-.stat-label {
-    font-size: 12px;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-top: 4px;
-}
-
-/* Buttons */
-.btn {
-    padding: 12px 20px;
+.delete-btn {
+    background: var(--danger);
     border: none;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 600;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 10px;
     cursor: pointer;
-    transition: all 0.2s;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
 }
 
-.btn:hover {
-    transform: translateY(-1px);
+.delete-btn:hover {
+    opacity: 0.8;
 }
 
-.btn:active {
-    transform: scale(0.98);
-}
-
-.btn-secondary {
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--text-secondary);
-}
-
-.btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.15);
-    color: var(--text-primary);
-}
-
-/* Shortcuts */
-.shortcuts-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.shortcut-item {
+/* ============================================
+   About Card
+   ============================================ */
+.card-about {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 12px 16px;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
+    gap: 16px;
+    padding: 16px 20px;
 }
 
-.shortcut-name {
-    font-size: 14px;
+.card-about .card-title {
+    margin-bottom: 0;
+    white-space: nowrap;
 }
 
-.shortcut-keys {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-kbd {
-    background: #3a3a3c;
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-family: "SF Mono", monospace;
+.about-compact {
+    flex: 1;
     font-size: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* About */
-.about-text {
     color: var(--text-secondary);
-    font-size: 14px;
-    margin-bottom: 16px;
 }
 
-.about-links {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.link {
-    color: var(--accent);
-    text-decoration: none;
-    font-size: 14px;
-}
-
-.link:hover {
-    text-decoration: underline;
-}
-
-.separator {
+.version-tag {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
     color: var(--text-tertiary);
 }
 
 /* Footer */
 .footer {
     text-align: center;
-    padding-top: 32px;
+    padding-top: 20px;
     color: var(--text-tertiary);
-    font-size: 13px;
+    font-size: 12px;
 }
 
-/* Responsive */
+.footer .panic {
+    color: #ff453a;
+    font-weight: 500;
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 900px) {
+    .bento-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .card-widget {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .card-stats {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    .card-shortcuts {
+        grid-column: 1 / 3;
+        grid-row: 2;
+    }
+
+    .card-decoy {
+        grid-column: 1 / 3;
+        grid-row: 3;
+    }
+
+    .card-sites {
+        grid-column: 1 / 3;
+        grid-row: 4;
+    }
+
+    .card-about {
+        grid-column: 1 / 3;
+        grid-row: 5;
+    }
+
+    .decoy-split,
+    .sites-split {
+        grid-template-columns: 1fr;
+    }
+}
+
 @media (max-width: 600px) {
-    .container {
-        padding: 20px 16px;
-    }
-
-    .header-content {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
-    }
-
-    .stats-grid {
+    .bento-grid {
         grid-template-columns: 1fr;
     }
 
-    .shortcut-item {
+    .card-widget,
+    .card-stats,
+    .card-shortcuts,
+    .card-decoy,
+    .card-sites,
+    .card-about {
+        grid-column: 1;
+    }
+
+    .stats-mini {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .form-compact {
         flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
+    }
+
+    .form-compact input,
+    .form-compact select {
+        width: 100%;
     }
 }

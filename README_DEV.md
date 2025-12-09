@@ -1,119 +1,369 @@
-# Developer Guide 🛠️
+# Developer Guide
 
-Technical documentation for contributing to Office Ninja Pro.
+This document is for developers who want to understand how Office Ninja Pro works under the hood, contribute improvements, or build similar extensions.
 
-## Tech Stack
+---
 
-- **Manifest V3** - Latest Chrome extension platform
-- **Vanilla JavaScript** - No frameworks, lightweight
-- **CSS3** - Modern styling with CSS variables
-- **Chrome Storage API** - Sync and local storage
+## Understanding the Architecture
 
-## Architecture Overview
+Office Ninja Pro follows Chrome's Manifest V3 architecture, which separates the extension into distinct contexts that communicate via message passing.
+
+### The Big Picture
 
 ```
-┌─────────────────┐     ┌─────────────────┐
-│     Popup       │────▶│  Background     │
-│  (popup.js)     │     │  (service       │
-└────────┬────────┘     │   worker)       │
-         │              └────────┬────────┘
-         │                       │
-         ▼                       ▼
-┌─────────────────┐     ┌─────────────────┐
-│    Content      │◀───▶│    Storage      │
-│   Script        │     │    Utils        │
-└─────────────────┘     └─────────────────┘
+┌──────────────────────────────────────────────────────────────────┐
+│                         BROWSER                                   │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                   │
+│   ┌─────────────┐        ┌─────────────────────────┐             │
+│   │   POPUP     │──────▶│   BACKGROUND SERVICE    │             │
+│   │  (popup/)   │        │      WORKER             │             │
+│   │             │        │   (background/)          │             │
+│   │ User clicks │        │                          │             │
+│   │ buttons,    │        │ Handles shortcuts,       │             │
+│   │ adjusts     │        │ opens decoy tabs,        │             │
+│   │ sliders     │        │ manages extension        │             │
+│   └──────┬──────┘        │ lifecycle                │             │
+│          │               └────────────┬─────────────┘             │
+│          │                            │                           │
+│          │     chrome.tabs.sendMessage()                         │
+│          │                            │                           │
+│          ▼                            ▼                           │
+│   ┌─────────────────────────────────────────────────────────┐    │
+│   │                    CONTENT SCRIPT                        │    │
+│   │                    (content/)                            │    │
+│   │                                                          │    │
+│   │  Runs inside every web page. Creates overlay elements,   │    │
+│   │  handles tab disguise, manages the floating widget.      │    │
+│   │                                                          │    │
+│   │  This is where the actual visual effects happen.         │    │
+│   └─────────────────────────────────────────────────────────┘    │
+│                                                                   │
+│   ┌─────────────────────────────────────────────────────────┐    │
+│   │                    OPTIONS PAGE                          │    │
+│   │                    (options/)                            │    │
+│   │                                                          │    │
+│   │  Standalone page for advanced settings like decoy tabs   │    │
+│   │  configuration and per-site settings management.         │    │
+│   └─────────────────────────────────────────────────────────┘    │
+│                                                                   │
+│   ┌─────────────────────────────────────────────────────────┐    │
+│   │                    STORAGE LAYER                         │    │
+│   │                    (utils/storage.js)                    │    │
+│   │                                                          │    │
+│   │  Shared by all contexts. Handles reading/writing to      │    │
+│   │  chrome.storage.sync (settings) and local (stats).       │    │
+│   └─────────────────────────────────────────────────────────┘    │
+│                                                                   │
+└──────────────────────────────────────────────────────────────────┘
 ```
 
-## Key Components
+### Why This Separation Matters
 
-### Content Script (`content/content.js`)
-Injected into all web pages. Handles:
-- Creating dim and blur overlay elements
-- Tab disguise (title + favicon changes)
-- Floating widget creation and interactions
-- Message handling from popup/background
+**Content Scripts** have access to the DOM but can't directly use most Chrome APIs. They can see and manipulate the web page.
 
-### Background Service Worker (`background/background.js`)
-Always-running script. Handles:
-- Keyboard shortcut commands
-- Opening decoy tabs on panic
-- Per-site settings auto-apply on navigation
+**Background Service Worker** has full Chrome API access but no DOM. It handles events like keyboard shortcuts and extension lifecycle.
 
-### Storage Utilities (`utils/storage.js`)
-Centralized storage interface:
-- `StorageUtils.getSettings()` - Get global settings
-- `StorageUtils.getSiteSettings(hostname)` - Get per-site config
-- `StorageUtils.getStats()` - Get usage statistics
-- `StorageUtils.formatTime(ms)` - Format time for display
+**Popup** is a mini webpage that appears when you click the extension icon. It's destroyed when closed, so it doesn't hold state.
+
+**Storage** bridges all these contexts. When the popup saves a setting, the content script can read it. When stats are updated, the options page can display them.
+
+---
+
+## Deep Dive: How Features Work
+
+### Tab Disguise
+
+The disguise feature works by manipulating two things:
+
+1. **Document Title** — We simply set `document.title` to something work-appropriate.
+
+2. **Favicon** — We find the existing `<link rel="icon">` element (or create one) and point its `href` to a Google favicon URL.
+
+```javascript
+// From content.js — simplified
+function applyTabDisguise(presetName) {
+    const preset = disguisePresets[presetName];
+    
+    // Save original values for restoration
+    originalTabInfo.title = document.title;
+    
+    // Apply disguise
+    document.title = preset.title;
+    
+    let faviconLink = document.querySelector('link[rel*="icon"]');
+    if (!faviconLink) {
+        faviconLink = document.createElement('link');
+        faviconLink.rel = 'icon';
+        document.head.appendChild(faviconLink);
+    }
+    faviconLink.href = preset.favicon;
+}
+```
+
+The preset favicons come from Google's public CDN, so they load instantly and look authentic.
+
+### Overlay System
+
+Instead of using CSS filters directly on the page (which would affect our own UI elements), we create two fixed-position overlays:
+
+1. **Dim Overlay** — A full-screen div with a solid background color and adjustable opacity.
+
+2. **Blur Overlay** — A full-screen div with `backdrop-filter: blur()` applied.
+
+Both have `pointer-events: none` so clicks pass through to the actual page.
+
+```css
+/* Conceptually */
+#dim-overlay {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    opacity: 0.7;
+    z-index: 2147483643;
+    pointer-events: none;
+}
+
+#blur-overlay {
+    position: fixed;
+    inset: 0;
+    backdrop-filter: blur(5px);
+    z-index: 2147483642;
+    pointer-events: none;
+}
+```
+
+We use extremely high z-index values to ensure our overlays appear above everything except maybe some aggressive modals.
+
+### Decoy Tabs
+
+When the Boss Key is triggered:
+
+1. Background service worker receives the keyboard command
+2. It reads decoy settings from storage
+3. For each enabled decoy, it calls `chrome.tabs.create()` with `active: false`
+4. A safe tab (Google Docs) opens as the active tab
+5. The user immediately sees a productive-looking screen
+
+```javascript
+// From background.js — simplified
+async function handleBossKey() {
+    await chrome.tabs.create({ url: 'https://docs.google.com/document/create' });
+    
+    const settings = await chrome.storage.sync.get(['decoySettings']);
+    if (settings.decoySettings?.enabled) {
+        for (const tabKey of settings.decoySettings.tabs) {
+            await chrome.tabs.create({ 
+                url: decoyUrls[tabKey], 
+                active: false 
+            });
+        }
+    }
+}
+```
+
+---
+
+## Message Protocol
+
+Scripts communicate via `chrome.runtime.sendMessage` (to background) and `chrome.tabs.sendMessage` (to content scripts).
+
+### Message Format
+
+All messages follow this structure:
+```javascript
+{
+    action: 'ACTION_NAME',
+    data: { /* optional payload */ }
+}
+```
+
+### Available Actions
+
+| Action | Direction | Purpose |
+|--------|-----------|---------|
+| `UPDATE_STYLES` | Popup → Content | Apply new dim/blur/grayscale values |
+| `TOGGLE_STEALTH` | Background → Content | Quick toggle via keyboard shortcut |
+| `APPLY_DISGUISE` | Popup → Content | Change tab title and favicon |
+| `REMOVE_DISGUISE` | Popup → Content | Restore original tab appearance |
+| `GET_DISGUISE_STATUS` | Popup → Content | Check if tab is currently disguised |
+| `TOGGLE_WIDGET` | Options → Content | Show or hide the floating widget |
+| `GET_STATUS` | Popup → Content | Get current active state |
+| `OPEN_SAFE_TAB` | Popup → Background | Open the safe tab |
+
+### Handling Responses
+
+For actions that need a response, the content script returns data via `sendResponse`:
+
+```javascript
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.action === 'GET_STATUS') {
+        sendResponse({
+            isActive: stealthModeActive,
+            settings: visualSettings
+        });
+    }
+    return true; // Required for async response
+});
+```
+
+---
+
+## Storage Schema
+
+### Sync Storage (synced across devices)
+
+```javascript
+{
+    globalSettings: {
+        dimLevel: 0,          // 0-95
+        blurLevel: 0,         // 0-20
+        grayscale: false,
+        overlayColor: '#000000',
+        widgetEnabled: true
+    },
+    siteSettings: {
+        'youtube.com': { dimLevel: 70, blurLevel: 5, ... },
+        'reddit.com': { dimLevel: 80, blurLevel: 3, ... }
+    },
+    decoySettings: {
+        enabled: false,
+        tabs: ['docs', 'sheets']  // Array of enabled decoy keys
+    }
+}
+```
+
+### Local Storage (device-specific)
+
+```javascript
+{
+    stats: {
+        totalTimeMs: 0,
+        sessionsCount: 0,
+        lastActiveDate: '2024-12-09',
+        dailyStats: {
+            '2024-12-09': 3600000,  // milliseconds
+            '2024-12-08': 7200000
+        }
+    }
+}
+```
+
+---
 
 ## Adding New Features
 
 ### Adding a New Disguise Preset
+
 1. Open `content/content.js`
-2. Find `disguisePresets` object
-3. Add new preset:
+2. Add to the `disguisePresets` object:
 ```javascript
-newPreset: {
-    title: 'Your Fake Title',
-    favicon: 'https://example.com/favicon.ico'
-}
+const disguisePresets = {
+    // ... existing presets
+    slack: {
+        title: 'Slack | General',
+        favicon: 'https://a.slack-edge.com/80588/marketing/img/meta/favicon-32.png'
+    }
+};
 ```
-4. Update popup HTML to include new button
+3. Add a button in `popup/popup.html`
+4. The existing click handler will pick it up automatically
+
+### Adding a New Decoy Tab
+
+1. Open `background/background.js`
+2. Add to `availableDecoyTabs`:
+```javascript
+const availableDecoyTabs = {
+    // ... existing
+    notion: 'https://notion.so'
+};
+```
+3. Add a checkbox in `options/options.html`
+4. Update the checkbox ID pattern in `options/options.js`
 
 ### Adding a New Quick Preset
+
 1. Open `popup/popup.js`
-2. Find `quickPresets` object
-3. Add configuration:
+2. Add to `quickPresets`:
 ```javascript
-myPreset: { dim: 50, blur: 3, gray: false }
+const quickPresets = {
+    // ... existing
+    reading: { dim: 30, blur: 0, gray: false }
+};
 ```
-4. Add button to `popup/popup.html`
+3. Add a button with `data-preset="reading"` in the HTML
 
-## Message Protocol
+---
 
-Messages between scripts use this format:
-```javascript
-{ action: 'ACTION_NAME', data: { ... } }
-```
+## Testing Checklist
 
-### Actions
-| Action | From | To | Purpose |
-|--------|------|-----|---------|
-| `UPDATE_STYLES` | Popup | Content | Apply visual effects |
-| `TOGGLE_STEALTH` | Background | Content | Toggle via shortcut |
-| `APPLY_DISGUISE` | Popup | Content | Change tab appearance |
-| `REMOVE_DISGUISE` | Popup | Content | Restore original tab |
-| `TOGGLE_WIDGET` | Options | Content | Show/hide widget |
+Before submitting changes, verify:
 
-## Building & Testing
-
-### Local Development
-1. Make changes to source files
-2. Go to `chrome://extensions`
-3. Click refresh button on extension card
-4. Test on any webpage
-
-### Testing Checklist
-- [ ] Popup opens correctly
+**Popup Functionality**
+- [ ] Popup opens without console errors
 - [ ] Sliders update effects in real-time
-- [ ] Quick presets apply correct values
-- [ ] Tab disguise changes title and favicon
-- [ ] Restore button works
-- [ ] Boss key opens safe tab + decoy tabs
-- [ ] Per-site settings persist
-- [ ] Options page loads and saves
-- [ ] Widget appears and is draggable
+- [ ] Preset buttons apply correct values
+- [ ] Grayscale toggle works
+- [ ] Color theme buttons work
 
-## Code Style
+**Tab Disguise**
+- [ ] Each disguise button changes title
+- [ ] Favicon updates correctly
+- [ ] "Restore Original" works
+- [ ] Status indicator shows current disguise
 
-- Use descriptive variable names
-- Add comments explaining "why", not "what"
-- Use section headers to organize long files
-- Keep functions focused and small
+**Decoy Tabs**
+- [ ] Decoy toggle saves correctly
+- [ ] Checkbox selections persist
+- [ ] Boss key opens correct tabs
+- [ ] Decoys open as background tabs
 
-## File Naming
+**Widget**
+- [ ] Widget appears on pages
+- [ ] Widget is draggable
+- [ ] Panel opens on click
+- [ ] Controls work correctly
+- [ ] Position saves across page loads
 
-- `camelCase` for JS files
-- `kebab-case` for CSS classes
-- Prefix with purpose: `widget-`, `popup-`, etc.
+**Per-Site Settings**
+- [ ] Toggle creates site entry
+- [ ] Settings persist for site
+- [ ] Different sites have different settings
+- [ ] Delete button removes site entry
+
+**Edge Cases**
+- [ ] Extension works after Chrome restart
+- [ ] Settings sync between devices (if possible to test)
+- [ ] No errors on chrome:// pages (should gracefully skip)
+
+---
+
+## Code Style Guidelines
+
+**Naming**
+- Use descriptive names: `visualSettings` not `vs`
+- Use verbs for functions: `applyVisualEffects()` not `effects()`
+- Use nouns for variables: `currentHostname` not `host`
+
+**Comments**
+- Explain *why*, not *what*
+- Use section headers for long files
+- Keep comments conversational
+
+**Structure**
+- Group related code together
+- Separate with clear section dividers
+- Keep functions focused (one thing per function)
+
+---
+
+## Need Help?
+
+Open an issue on GitHub with:
+- What you're trying to do
+- What you expected to happen
+- What actually happened
+- Browser version and OS
+
+We're happy to help!

@@ -44,12 +44,17 @@ One click transforms your current tab into something office-appropriate:
 The favicon updates too. From across the room, no one can tell the difference.
 
 ### Decoy Tabs
-Configure which tabs open when you trigger panic mode. Options include:
+Configure which tabs open when you trigger panic mode:
+
+**Built-in Options:**
 - Google Docs
 - Google Sheets
 - Gmail
 - Google Calendar
 - Google Drive
+
+**Custom Decoys:**
+Add any URL as a decoy in the Options page — perfect for your company's intranet, Slack, or other work tools.
 
 When you press the Boss Key, these tabs open in the background, creating an instant alibi.
 
@@ -162,15 +167,15 @@ No data is collected. No analytics. Everything stays on your machine.
 
 ## Contributing
 
-Found a bug? Have an idea? Contributions are welcome.
+Found a bug? Have an idea? Contributions are welcome!
 
-1. Fork this repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes
-4. Run through the testing checklist in `README_DEV.md`
-5. Submit a pull request
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on:
+- Development setup
+- Code style
+- Testing checklist
+- Pull request process
 
-For technical details on architecture and code style, see the [Developer Guide](README_DEV.md).
+For technical architecture details, see the [Developer Guide](README_DEV.md).
 
 ---
 

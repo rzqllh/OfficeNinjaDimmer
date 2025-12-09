@@ -6,6 +6,43 @@ This project follows [Semantic Versioning](https://semver.org/). Each release in
 
 ---
 
+## [3.3.1] — December 9, 2025
+
+A significant UI polish pass. Both the popup and options page received design updates to improve usability and visual appeal.
+
+### UI Improvements
+
+**Options Page — Bento Grid Layout**
+
+The options page has been completely redesigned with a modern bento grid layout:
+
+- Three-column top row: Widget toggle, Stats cards, Keyboard shortcuts
+- Wide cards for Decoy Tabs and Per-Site Settings
+- Compact inline forms with no wasted space
+- Everything fits on one screen — minimal scrolling required
+- Responsive breakpoints for tablet and mobile
+
+**Popup — Refined Styling**
+
+The popup got a significant visual polish:
+
+- Slimmer width (300px) for a more focused experience
+- Cleaner section organization with better visual hierarchy
+- Larger emoji-only disguise buttons for easier clicking
+- Circular color picker buttons
+- Gradient action buttons with proper hover states
+- Compact stats row
+- Improved slider styling with custom thumb
+
+### Technical Details
+
+- New CSS class structure for options page
+- Popup HTML simplified and reorganized
+- Fixed CSS compatibility issues (standard `appearance` and `background-clip` properties)
+- Updated version badge to v3.3
+
+---
+
 ## [3.3.0] — December 9, 2025
 
 This release focuses on customization and user control. You're no longer limited to our preset decoy tabs — create your own. Plus, managing per-site settings is now easier than ever.

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Office Ninja Pro</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+    <!-- Header Section -->
+    <div class="header">
+        <div class="title-wrapper">
+            <span class="ninja-icon">🥷</span>
+            <span class="title">Office Ninja Pro</span>
+        </div>
+        <span class="badge">v3.2</span>
+    </div>
+
+    <!-- Quick Preset Buttons -->
+    <div class="presets-section">
+        <div class="section-label">Quick Presets</div>
+        <div class="presets-grid">
+            <button class="preset-btn" data-preset="night">
+                <span class="preset-icon">🌙</span>
+                <span class="preset-name">Night</span>
+            </button>
+            <button class="preset-btn" data-preset="focus">
+                <span class="preset-icon">👁</span>
+                <span class="preset-name">Focus</span>
+            </button>
+            <button class="preset-btn" data-preset="stealth">
+                <span class="preset-icon">💼</span>
+                <span class="preset-name">Stealth</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Tab Disguise Feature -->
+    <div class="control-group disguise-section">
+        <div class="label-row">
+            <span><span class="label-icon">🎭</span>Tab Disguise</span>
+            <span id="disguiseStatus" class="value-display">Off</span>
+        </div>
+        <div class="disguise-grid">
+            <button class="disguise-btn" data-disguise="sheets" title="Disguise as Google Sheets">
+                <span>📊</span>
+                <span>Sheets</span>
+            </button>
+            <button class="disguise-btn" data-disguise="gmail" title="Disguise as Gmail">
+                <span>📧</span>
+                <span>Gmail</span>
+            </button>
+            <button class="disguise-btn" data-disguise="docs" title="Disguise as Google Docs">
+                <span>📝</span>
+                <span>Docs</span>
+            </button>
+            <button class="disguise-btn" data-disguise="calendar" title="Disguise as Google Calendar">
+                <span>📅</span>
+                <span>Calendar</span>
+            </button>
+        </div>
+        <button class="btn-restore-tab" id="restoreTabBtn">↩️ Restore Original</button>
+    </div>
+
+    <!-- Dim Level Slider -->
+    <div class="control-group">
+        <div class="label-row">
+            <span><span class="label-icon">🔆</span>Dim Level</span>
+            <span id="dimValue" class="value-display">0%</span>
+        </div>
+        <input type="range" id="dimmerSlider" min="0" max="95" value="0">
+    </div>
+
+    <!-- Blur Level Slider -->
+    <div class="control-group">
+        <div class="label-row">
+            <span><span class="label-icon">💨</span>Blur Level</span>
+            <span id="blurValue" class="value-display">0px</span>
+        </div>
+        <input type="range" id="blurSlider" min="0" max="20" value="0">
+
+        <div class="toggle-row">
+            <span class="toggle-label">
+                <span>🎨</span>Grayscale Mode
+            </span>
+            <label class="switch">
+                <input type="checkbox" id="grayscaleToggle">
+                <span class="slider-toggle"></span>
+            </label>
+        </div>
+    </div>
+
+    <!-- Overlay Color Picker -->
+    <div class="control-group color-section">
+        <div class="label-row">
+            <span><span class="label-icon">🎭</span>Overlay Color</span>
+        </div>
+        <div class="color-grid">
+            <button class="color-btn color-black active" data-color="#000000" title="Black"></button>
+            <button class="color-btn color-blue" data-color="#1a1a2e" title="Midnight Blue"></button>
+            <button class="color-btn color-green" data-color="#0d3320" title="Forest Green"></button>
+            <button class="color-btn color-sepia" data-color="#3d2914" title="Sepia"></button>
+        </div>
+    </div>
+
+    <!-- Per-Site Settings Toggle -->
+    <div class="site-settings">
+        <div class="site-info">
+            <span class="site-icon">🌐</span>
+            <div class="site-text">
+                <div class="site-hostname" id="currentHostname">-</div>
+                <div class="site-status" id="siteStatus">Global settings</div>
+            </div>
+        </div>
+        <label class="switch">
+            <input type="checkbox" id="perSiteToggle">
+            <span class="slider-toggle"></span>
+        </label>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="actions-grid">
+        <button class="btn btn-boss" id="bossBtn">
+            🚪 Boss Key
+        </button>
+        <button class="btn btn-reset" id="resetBtn">
+            ↺ Reset
+        </button>
+        <button class="btn btn-panic" id="panicBtn">
+            ⚠️ PANIC MODE
+        </button>
+    </div>
+
+    <!-- Stats Display -->
+    <div class="stats-section">
+        <div class="section-label" style="margin-bottom: 8px;">📊 Usage Stats</div>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-value" id="totalTime">0m</div>
+                <div class="stat-label">Total Time</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="todayTime">0m</div>
+                <div class="stat-label">Today</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Info -->
+    <div class="footer">
+        <div class="shortcut-hint">
+            Toggle: <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> | Boss: <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd>
+        </div>
+        <a class="options-link" id="openOptions">⚙️ Advanced Settings</a>
+    </div>
+
+    <script src="../utils/storage.js"></script>
+    <script src="popup.js"></script>
+</body>
+
+</html>

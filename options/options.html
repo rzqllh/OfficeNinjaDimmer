@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Office Ninja Pro - Settings</title>
+    <link rel="stylesheet" href="options.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="title-wrapper">
+                    <span class="ninja-icon">🥷</span>
+                    <div>
+                        <h1 class="title">Office Ninja Pro</h1>
+                        <p class="subtitle">Advanced Settings</p>
+                    </div>
+                </div>
+                <span class="badge">v3.2</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Widget Settings -->
+            <section class="card">
+                <h2 class="card-title">
+                    <span class="icon">🎛️</span>
+                    Widget Settings
+                </h2>
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <span class="setting-label">Floating Widget</span>
+                        <span class="setting-desc">Show a floating ninja button on pages for quick access to
+                            controls</span>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="widgetEnabled" checked>
+                        <span class="slider-toggle"></span>
+                    </label>
+                </div>
+            </section>
+
+            <!-- Decoy Tabs Settings -->
+            <section class="card">
+                <h2 class="card-title">
+                    <span class="icon">🎭</span>
+                    Decoy Tabs
+                </h2>
+                <p class="card-desc">
+                    When you hit the Boss Key or Panic Mode, automatically open these work-looking tabs
+                    to make it seem like you've been productive all along.
+                </p>
+
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <span class="setting-label">Enable Decoy Tabs</span>
+                        <span class="setting-desc">Open fake "work" tabs when panic is triggered</span>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="decoyEnabled">
+                        <span class="slider-toggle"></span>
+                    </label>
+                </div>
+
+                <div id="decoyOptions" class="decoy-options">
+                    <div class="setting-label" style="margin-bottom: 12px;">Choose which tabs to open:</div>
+
+                    <div class="checkbox-grid">
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="decoyDocs" value="docs">
+                            <span class="checkbox-label">📝 Google Docs</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="decoySheets" value="sheets">
+                            <span class="checkbox-label">📊 Google Sheets</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="decoyGmail" value="gmail">
+                            <span class="checkbox-label">📧 Gmail</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="decoyCalendar" value="calendar">
+                            <span class="checkbox-label">📅 Google Calendar</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="decoyDrive" value="drive">
+                            <span class="checkbox-label">📁 Google Drive</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Per-Site Settings -->
+            <section class="card">
+                <h2 class="card-title">
+                    <span class="icon">🌐</span>
+                    Per-Site Settings
+                </h2>
+                <p class="card-desc">Manage your saved settings for specific websites</p>
+
+                <div id="sitesList" class="sites-list">
+                    <div class="empty-state">
+                        <span class="empty-icon">📭</span>
+                        <p>No site-specific settings saved yet.</p>
+                        <p class="hint">Enable the per-site toggle in the popup to save custom settings for different
+                            websites.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Statistics -->
+            <section class="card">
+                <h2 class="card-title">
+                    <span class="icon">📊</span>
+                    Usage Statistics
+                </h2>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalTime">0h 0m</div>
+                        <div class="stat-label">Total Stealth Time</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="sessionsCount">0</div>
+                        <div class="stat-label">Total Sessions</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="todayTime">0m</div>
+                        <div class="stat-label">Today</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="weekTime">0h</div>
+                        <div class="stat-label">This Week</div>
+                    </div>
+                </div>
+
+                <button class="btn btn-secondary" id="resetStats">
+                    🗑️ Reset Statistics
+                </button>
+            </section>
+
+            <!-- Keyboard Shortcuts -->
+            <section class="card">
+                <h2 class="card-title">
+                    <span class="icon">⌨️</span>
+                    Keyboard Shortcuts
+                </h2>
+
+                <div class="shortcuts-list">
+                    <div class="shortcut-item">
+                        <span class="shortcut-name">Toggle Stealth Mode</span>
+                        <div class="shortcut-keys">
+                            <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd>
+                        </div>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-name">Boss Key (Emergency Escape)</span>
+                        <div class="shortcut-keys">
+                            <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>B</kbd>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="hint">
+                    Want to customize these? Go to
+                    <a href="#" id="shortcutsLink">chrome://extensions/shortcuts</a>
+                </p>
+            </section>
+
+            <!-- About -->
+            <section class="card">
+                <h2 class="card-title">
+                    <span class="icon">ℹ️</span>
+                    About
+                </h2>
+                <p class="about-text">
+                    Office Ninja Pro is a premium screen dimmer and privacy tool designed for
+                    open-office environments. Stay productive (or at least look like it) with
+                    customizable dimming, blur effects, tab disguise, and emergency escape features.
+                </p>
+                <div class="about-links">
+                    <span class="version-info">Version 3.2</span>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Made with ❤️ for office ninjas everywhere</p>
+        </footer>
+    </div>
+
+    <script src="../utils/storage.js"></script>
+    <script src="options.js"></script>
+</body>
+
+</html>

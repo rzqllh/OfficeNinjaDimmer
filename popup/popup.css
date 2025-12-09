@@ -1,0 +1,693 @@
+/* ============================================
+   Office Ninja Pro - Popup Styles
+   Premium Dark Theme with Glassmorphism
+   ============================================ */
+
+/* CSS Variables */
+:root {
+    --bg-body: #0d0d0d;
+    --bg-card: rgba(38, 38, 40, 0.8);
+    --bg-card-hover: rgba(48, 48, 52, 0.9);
+    --accent: #0a84ff;
+    --accent-glow: rgba(10, 132, 255, 0.3);
+    --text-primary: #ffffff;
+    --text-secondary: #8e8e93;
+    --danger: #ff453a;
+    --success: #30d158;
+    --warning: #ffd60a;
+    --border: rgba(255, 255, 255, 0.1);
+    --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --gradient-night: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    --gradient-focus: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
+    --gradient-stealth: linear-gradient(135deg, #000000 0%, #434343 100%);
+}
+
+/* Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 320px;
+    padding: 16px;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+    background: var(--bg-body);
+    color: var(--text-primary);
+    user-select: none;
+    overflow-x: hidden;
+}
+
+/* ============================================
+   Header with Animated Gradient
+   ============================================ */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ninja-icon {
+    font-size: 24px;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-3px);
+    }
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: linear-gradient(90deg, #fff, #0a84ff, #fff);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradient-shift 3s ease infinite;
+}
+
+@keyframes gradient-shift {
+    0% {
+        background-position: 0% center;
+    }
+
+    50% {
+        background-position: 100% center;
+    }
+
+    100% {
+        background-position: 0% center;
+    }
+}
+
+.badge {
+    background: var(--accent);
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 10px;
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* ============================================
+   Quick Presets
+   ============================================ */
+.presets-section {
+    margin-bottom: 14px;
+}
+
+.section-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.presets-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.preset-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 6px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(10px);
+}
+
+.preset-btn:hover {
+    background: var(--bg-card-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.preset-btn:active {
+    transform: scale(0.95);
+}
+
+.preset-btn.active {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px var(--accent-glow);
+}
+
+.preset-icon {
+    font-size: 18px;
+    margin-bottom: 4px;
+}
+
+.preset-name {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+/* ============================================
+   Control Cards
+   ============================================ */
+.control-group {
+    background: var(--bg-card);
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 10px;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    transition: all 0.2s ease;
+}
+
+.control-group:hover {
+    background: var(--bg-card-hover);
+}
+
+.label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.label-icon {
+    margin-right: 6px;
+}
+
+.value-display {
+    color: var(--accent);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ============================================
+   Custom Sliders with Gradient Track
+   ============================================ */
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    background: transparent;
+    cursor: pointer;
+}
+
+input[type="range"]:focus {
+    outline: none;
+}
+
+/* Slider Track */
+input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 6px;
+    border-radius: 999px;
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0.1) 0%,
+            var(--accent) 100%);
+}
+
+input[type="range"]::-moz-range-track {
+    width: 100%;
+    height: 6px;
+    border-radius: 999px;
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0.1) 0%,
+            var(--accent) 100%);
+}
+
+/* Slider Thumb */
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    background: #ffffff;
+    margin-top: -6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 0 2px rgba(255, 255, 255, 0.1);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+input[type="range"]::-moz-range-thumb {
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 0 2px rgba(255, 255, 255, 0.1);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 0 3px var(--accent-glow);
+}
+
+input[type="range"]::-webkit-slider-thumb:active {
+    transform: scale(1.1);
+}
+
+/* ============================================
+   Toggle Switch
+   ============================================ */
+.toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+}
+
+.toggle-label {
+    font-size: 13px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 26px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider-toggle {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #48484a;
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 26px;
+}
+
+.slider-toggle:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+input:checked+.slider-toggle {
+    background-color: var(--accent);
+    box-shadow: 0 0 12px var(--accent-glow);
+}
+
+input:checked+.slider-toggle:before {
+    transform: translateX(18px);
+}
+
+/* ============================================
+   Color Theme Selector
+   ============================================ */
+.color-section {
+    margin-bottom: 10px;
+}
+
+.color-grid {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.color-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.color-btn:hover {
+    transform: scale(1.1);
+}
+
+.color-btn.active {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.color-btn.active::after {
+    content: "✓";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.color-black {
+    background: #000000;
+}
+
+.color-blue {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+}
+
+.color-green {
+    background: linear-gradient(135deg, #0d3320, #1a472a);
+}
+
+.color-sepia {
+    background: linear-gradient(135deg, #3d2914, #5c3d1e);
+}
+
+/* ============================================
+   Per-Site Toggle
+   ============================================ */
+.site-settings {
+    background: var(--bg-card);
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.site-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.site-icon {
+    font-size: 16px;
+}
+
+.site-text {
+    font-size: 12px;
+}
+
+.site-hostname {
+    font-weight: 600;
+    color: var(--text-primary);
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.site-status {
+    font-size: 10px;
+    color: var(--text-secondary);
+}
+
+/* ============================================
+   Tab Disguise Section
+   ============================================ */
+.disguise-section {
+    margin-bottom: 10px;
+}
+
+.disguise-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.disguise-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 10px;
+    color: var(--text-secondary);
+    gap: 3px;
+}
+
+.disguise-btn span:first-child {
+    font-size: 16px;
+}
+
+.disguise-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+    color: var(--text-primary);
+}
+
+.disguise-btn.active {
+    background: rgba(10, 132, 255, 0.2);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.btn-restore-tab {
+    width: 100%;
+    padding: 8px;
+    background: transparent;
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-restore-tab:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    border-style: solid;
+}
+
+/* ============================================
+   Action Buttons
+   ============================================ */
+.actions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.btn {
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.btn:active {
+    transform: scale(0.96);
+}
+
+.btn-panic {
+    grid-column: span 2;
+    background: linear-gradient(135deg, var(--danger), #c0392b);
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 69, 58, 0.3);
+}
+
+.btn-panic:hover {
+    box-shadow: 0 6px 20px rgba(255, 69, 58, 0.4);
+    transform: translateY(-1px);
+}
+
+.btn-boss {
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    color: white;
+}
+
+.btn-boss:hover {
+    background: linear-gradient(135deg, #34495e, #4a6278);
+}
+
+.btn-reset {
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+}
+
+.btn-reset:hover {
+    background: var(--bg-card-hover);
+    color: var(--text-primary);
+}
+
+/* ============================================
+   Stats Section
+   ============================================ */
+.stats-section {
+    background: var(--bg-card);
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.stat-label {
+    font-size: 10px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+/* ============================================
+   Footer
+   ============================================ */
+.footer {
+    text-align: center;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+}
+
+.shortcut-hint {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+}
+
+kbd {
+    background: #3a3a3c;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: "SF Mono", monospace;
+    font-size: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.options-link {
+    font-size: 11px;
+    color: var(--accent);
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.options-link:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.pulsing {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.control-group,
+.presets-section,
+.site-settings,
+.stats-section {
+    animation: slideIn 0.3s ease-out;
+}
+
+.presets-section {
+    animation-delay: 0.05s;
+}
+
+.control-group:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.control-group:nth-child(3) {
+    animation-delay: 0.15s;
+}

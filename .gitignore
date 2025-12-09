@@ -1,0 +1,24 @@
+# Logs
+logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Package files
+node_modules/
+package-lock.json
+
+# Build
+dist/
+build/
+*.zip
+
+# Temp
+tmp/
+.tmp/

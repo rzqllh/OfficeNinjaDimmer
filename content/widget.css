@@ -1,0 +1,170 @@
+/* ============================================
+   Office Ninja Pro - Floating Widget Styles
+   ============================================ */
+
+#office-ninja-widget {
+    position: fixed;
+    z-index: 2147483646;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+    pointer-events: auto;
+}
+
+.ninja-widget-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0, 0, 0, 0.5);
+    cursor: grab;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.ninja-widget-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5), 0 0 20px rgba(10, 132, 255, 0.3);
+    border-color: rgba(10, 132, 255, 0.5);
+}
+
+.ninja-widget-btn:active {
+    cursor: grabbing;
+    transform: scale(1.05);
+}
+
+.ninja-widget-btn.active {
+    background: linear-gradient(135deg, #0a84ff 0%, #5856d6 100%);
+    box-shadow: 0 4px 20px rgba(10, 132, 255, 0.5);
+}
+
+/* Quick Controls Panel */
+.ninja-widget-panel {
+    position: absolute;
+    bottom: 56px;
+    right: 0;
+    width: 200px;
+    background: rgba(28, 28, 30, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 16px;
+    padding: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px) scale(0.95);
+    transition: all 0.2s ease;
+}
+
+.ninja-widget-panel.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.widget-slider-group {
+    margin-bottom: 12px;
+}
+
+.widget-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #8e8e93;
+    margin-bottom: 6px;
+}
+
+.widget-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    outline: none;
+}
+
+.widget-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.widget-toggle-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.widget-toggle-label {
+    font-size: 11px;
+    color: #fff;
+}
+
+/* Mini Toggle */
+.widget-switch {
+    position: relative;
+    width: 36px;
+    height: 20px;
+}
+
+.widget-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.widget-switch-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #48484a;
+    transition: 0.3s;
+    border-radius: 20px;
+}
+
+.widget-switch-slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+}
+
+.widget-switch input:checked+.widget-switch-slider {
+    background-color: #0a84ff;
+}
+
+.widget-switch input:checked+.widget-switch-slider:before {
+    transform: translateX(16px);
+}
+
+/* Reveal Indicator */
+.ninja-reveal-indicator {
+    position: fixed;
+    padding: 4px 8px;
+    background: rgba(10, 132, 255, 0.9);
+    color: white;
+    font-size: 10px;
+    border-radius: 4px;
+    pointer-events: none;
+    z-index: 2147483647;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
